@@ -8,6 +8,8 @@ import java.util.HashMap;
 import bs.commons.objects.access.FieldAccessor;
 import bs.commons.objects.execution.ExternalFieldUpdate;
 import bs.commons.objects.execution.MethodId;
+import bs.commons.objects.labeling.Label;
+import bs.commons.objects.labeling.LabelReader;
 import bs.commons.objects.manipulation.ObjectCloner;
 import bs.gui.components.actions.ActionButton;
 import bs.gui.components.menu.UserInput;
@@ -47,6 +49,7 @@ public class ClassInstanceEditor
 		//editedObject = ObjectCloner.xmlClone(initialObject);
 		VBox inputs = getInputBox(getInputs());
 		fieldScroll.setContent(inputs);
+		fieldScroll.setFitToWidth(false);
 	}
 
 	private HashMap<String, UserInput> getInputs()
@@ -64,9 +67,10 @@ public class ClassInstanceEditor
 			} catch (IllegalArgumentException | IllegalAccessException e)
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
-			ExternalFieldUpdate update = new ExternalFieldUpdate(field, editedObject, fieldName);
+			String name = LabelReader.getLabel(Label.class, field);
+			ExternalFieldUpdate update = new ExternalFieldUpdate(field, editedObject, name);
 			UserInput input = InputSorter.getAppropriateInput(update);
 			inputAreas.put(fieldName, input);
 		}

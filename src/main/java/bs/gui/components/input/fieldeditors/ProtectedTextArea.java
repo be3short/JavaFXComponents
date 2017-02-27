@@ -5,6 +5,7 @@ import bs.commons.objects.execution.MethodId;
 import bs.gui.components.menu.UserInput;
 import bs.gui.components.menu.UserInput.Actions;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -45,11 +46,11 @@ public class ProtectedTextArea extends UserInput
 
 	private void initializeGUI()
 	{
-		Text title = new Text(name);
+		Label title = new Label(name);
 		input = new TextField();
 
 		input.setText(defaultValue.toString());
-		status = new Text("Ok");
+		//status = new Label("Ok");
 		statusIcon = new ImageView();
 		statusIcon.setImage(new Image("icons/GreenCheckMark.png", 20.0, 20.0, true, true));
 		//	statusIcon.resize(10.0, 10.0);
