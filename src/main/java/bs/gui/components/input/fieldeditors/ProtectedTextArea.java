@@ -1,10 +1,13 @@
 package bs.gui.components.input.fieldeditors;
 
+import bs.commons.dimvars.values.InitialValue;
 import bs.commons.objects.execution.ExternalMethodExecutor;
 import bs.commons.objects.execution.MethodId;
 import bs.gui.components.menu.UserInput;
 import bs.gui.components.menu.UserInput.Actions;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -21,6 +24,7 @@ public class ProtectedTextArea extends UserInput
 	private TextField input;
 	private Text status;
 	private ImageView statusIcon;
+	private InitialValue random;
 
 	public ProtectedTextArea(Object update, String update_id, Object default_value, String name)
 	{
@@ -47,6 +51,9 @@ public class ProtectedTextArea extends UserInput
 	private void initializeGUI()
 	{
 		Label title = new Label(name);
+		HBox titleBox = new HBox(title);
+		titleBox.setPadding(new Insets(0, 10, 0, 0));
+		titleBox.setAlignment(Pos.CENTER_LEFT);
 		input = new TextField();
 
 		input.setText(defaultValue.toString());
@@ -54,9 +61,21 @@ public class ProtectedTextArea extends UserInput
 		statusIcon = new ImageView();
 		statusIcon.setImage(new Image("icons/GreenCheckMark.png", 20.0, 20.0, true, true));
 		//	statusIcon.resize(10.0, 10.0);
-		HBox inputBox = new HBox(input, statusIcon);
-		mainPane.setLeft(title);
-		mainPane.setRight(inputBox);
+
+		//inputBox.setCenter(input);
+		//inputBox.setRight(statusIcon);
+		if (name.length() > 0)
+		{
+			mainPane.setLeft(titleBox);
+			HBox inputBox = new HBox(input, statusIcon);
+			inputBox.setAlignment(Pos.CENTER_RIGHT);
+			mainPane.setRight(inputBox);
+		} else
+		{
+			mainPane.setCenter(input);
+			mainPane.setRight(statusIcon);
+		}
+
 	}
 
 	private void initializeActions()
@@ -100,7 +119,16 @@ public class ProtectedTextArea extends UserInput
 		{
 			if (defaultValue.getClass().equals(Double.class))
 			{
-				val = Double.parseDouble(inputText);
+				if (inputText.substring(0, 1).equals("r"))
+				{
+					Double minVal = Double.parseDouble(inputText.substring(1).split(",")[0]);
+					Double maxVal = Double.parseDouble(inputText.substring(1).split(",")[1]);
+					val = new InitialValue(minVal, maxVal);
+
+				} else
+				{
+					val = Double.parseDouble(inputText);
+				}
 			} else if (defaultValue.getClass().equals(Integer.class))
 			{
 				val = Integer.parseInt(inputText);

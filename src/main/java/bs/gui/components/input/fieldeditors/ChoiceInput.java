@@ -13,6 +13,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -36,7 +37,7 @@ public class ChoiceInput extends UserInput
 		updateMethodId = update_id;
 		defaultValue = default_value;
 		this.name = name;
-		choices = ChoiceAccessor.getChoiceNames(choice_enum);
+		choices = ChoiceAccessor.getChoices(choice_enum);
 		initialize();
 	}
 
@@ -57,7 +58,11 @@ public class ChoiceInput extends UserInput
 		setupMenu();
 
 		mainPane.setLeft(title);
-		mainPane.setRight(choiceBox);
+		HBox choices = new HBox(choiceBox);
+		choices.setAlignment(Pos.CENTER);
+		mainPane.setRight(choices);
+		//choiceBox.getSelectionModel()
+		//	.select(ChoiceAccessor.getChoices(defaultValue).keySet().toArray(new String[1])[0]);
 	}
 
 	@MethodId(id = Actions.getInput)

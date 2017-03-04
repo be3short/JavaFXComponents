@@ -23,9 +23,10 @@ dependencies {
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
-    compile 'com.github.brendan1991:ObjectTools:-SNAPSHOT'
+   // compile 'com.github.brendan1991:ObjectTools:-SNAPSHOT'
     //compile 'com.github.brendan1991:BST:-SNAPSHOT'
-    compile 'com.github.brendan1991:TerminalFX:-SNAPSHOT'
+ //   compile 'com.github.brendan1991:UnitVariables:v0.1'
+   // compile 'com.github.brendan1991:TerminalFX:-SNAPSHOT'
   //  compile 'com.asciidocfx:terminalfx:-SNAPSHOT'
 }
 

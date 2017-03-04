@@ -17,13 +17,26 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class ClassInstanceEditor
+public class ClassInstanceEditor extends UserInput
 {
 
 	public Object initialObject;
 	public BorderPane mainPane;
 	public ScrollPane fieldScroll;
+	public ArrayList<ExternalFieldUpdate> fieldUpdaters;
 	public Object editedObject;
+
+	@Override
+	public boolean checkIfValidInput()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean executeUpdate()
+	{
+		return true;
+	}
 
 	public ClassInstanceEditor(Object edit_object)
 	{
@@ -35,6 +48,7 @@ public class ClassInstanceEditor
 
 	private void initializeGUI()
 	{
+		fieldUpdaters = new ArrayList<ExternalFieldUpdate>();
 		mainPane = new BorderPane();
 		fieldScroll = new ScrollPane();
 		mainPane.setCenter(fieldScroll);
@@ -63,21 +77,22 @@ public class ClassInstanceEditor
 			try
 			{
 				initialVal = field.get(initialObject);
-				field.set(editedObject, initialVal);
+				//field.set(editedObject, initialVal);
 			} catch (IllegalArgumentException | IllegalAccessException e)
 			{
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 			String name = LabelReader.getLabel(Label.class, field);
 			ExternalFieldUpdate update = new ExternalFieldUpdate(field, editedObject, name);
+			fieldUpdaters.add(update);
 			UserInput input = InputSorter.getAppropriateInput(update);
 			inputAreas.put(fieldName, input);
 		}
 		return inputAreas;
 	}
 
-	private VBox getInputBox(HashMap<String, UserInput> inputs)
+	private VBox getInzputBox(HashMap<String, UserInput> inputs)
 	{
 		VBox inputBox = new VBox();
 		ArrayList<String> fieldNames = new ArrayList<String>(inputs.keySet());
@@ -88,8 +103,14 @@ public class ClassInstanceEditor
 		sortedByClass.put(ProtectedTextArea.class, new ArrayList<UserInput>());
 		for (String fieldName : fieldNames)
 		{
-			sortedByClass.get(inputs.get(fieldName).getClass()).add(inputs.get(fieldName));
-
+			try
+			{
+				System.out.println(fieldName);
+				sortedByClass.get(inputs.get(fieldName).getClass()).add(inputs.get(fieldName));
+			} catch (Exception badField)
+			{
+				badField.printStackTrace();
+			}
 		}
 		Class[] classOrder =
 		{ BooleanInput.class, ChoiceInput.class, ProtectedTextArea.class };
@@ -99,6 +120,24 @@ public class ClassInstanceEditor
 			{
 				inputBox.getChildren().add(ui.mainPane);
 			}
+		}
+		return inputBox;
+	}
+
+	private VBox getInputBox(HashMap<String, UserInput> inputs)
+	{
+		VBox inputBox = new VBox();
+		ArrayList<String> fieldNames = new ArrayList<String>(inputs.keySet());
+		Collections.sort(fieldNames);
+
+		for (String fieldName : fieldNames)
+		{
+
+			System.out.println(fieldName);
+			//inputs.get(fieldName).getClass()).add(inputs.get(fieldName));
+
+			inputBox.getChildren().add(inputs.get(fieldName).mainPane);
+
 		}
 		return inputBox;
 	}
