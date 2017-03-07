@@ -3,13 +3,10 @@ package bs.gui.components.input.fieldeditors;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
-import bs.commons.dimvars.core.Value;
 import bs.commons.dimvars.core.UnitValue;
 import bs.commons.objects.execution.ExternalFieldUpdate;
-import bs.fx.gui.editors.unitval.UnitValueEditor;
 import bs.gui.components.menu.UserInput;
 
 public class InputSorter
@@ -48,10 +45,10 @@ public class InputSorter
 					fieldValClass.getEnumConstants());
 				} else if (field_updater.value.getClass().getSuperclass().equals(UnitValue.class))
 				{
-					input = new UnitValueEditor(field_updater.name, (UnitValue) field_updater.value);
-				} else if (fieldValClass.getSuperclass().equals(Value.class))
-				{
-					input = new UnitValueEditor(field_updater.name, (UnitValue) ((Value) field_updater.value).v());
+					//input = new UnitValueEditor(field_updater.name, (UnitValue) field_updater.value);
+					//	} else if (fieldValClass.getSuperclass().equals(Element.class))
+					//{
+					//input = new UnitValueEditor(field_updater.name, (UnitValue) ((Value) field_updater.value).v());
 				} else
 				{
 					input = new ClassInstanceEditor(field_updater.value);

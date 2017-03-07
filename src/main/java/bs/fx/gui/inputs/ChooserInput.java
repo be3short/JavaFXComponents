@@ -1,17 +1,15 @@
-package bs.gui.components.input.fieldeditors;
+package bs.fx.gui.inputs;
 
 import java.util.HashMap;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ChoiceBox;
 
-public class ChooserInput<T>
+public class ChooserInput<T> extends UserInput<T>
 {
 
-	private ObjectProperty<T> choice;
 	private Class<T> choiceClass;
 	private T defaultChoice;
 	private ChoiceBox<String> choices;
@@ -19,7 +17,8 @@ public class ChooserInput<T>
 
 	public ChooserInput(Class<T> choice_class, T default_choice)
 	{
-		choice = new SimpleObjectProperty<T>(defaultChoice);
+		selection = new SimpleObjectProperty<T>(defaultChoice);
+		status = null;
 		choiceMap = new HashMap<String, T>();
 		defaultChoice = default_choice;
 		choiceClass = choice_class;
@@ -32,6 +31,7 @@ public class ChooserInput<T>
 			defaultChoiceName = initializeEnum();
 		}
 		initializeChoiceBox(defaultChoiceName);
+		selection.set(choiceMap.get(defaultChoiceName));
 	}
 
 	private String initializeBoolean()
@@ -50,20 +50,16 @@ public class ChooserInput<T>
 
 	private String initializeEnum()
 	{
-		String defaultName = "";
+		String defaultName = getChoiceName(defaultChoice);
 		for (T aChoice : choiceClass.getEnumConstants())
 		{
 			String getEnumName = getChoiceName(aChoice);
-			if (aChoice.equals(defaultName))
-			{
-				defaultName = getEnumName;
-			}
 			choiceMap.put(getEnumName, aChoice);
 		}
 		return defaultName;
 	}
 
-	public String getChoiceName(Object cenum)
+	public String getChoiceName(T cenum)
 	{
 
 		String enumName = ((Enum) cenum).name();
@@ -75,7 +71,7 @@ public class ChooserInput<T>
 			{
 				enumName += " ";
 			}
-			enumName = splitByUnderscore[i].substring(0, 1) + splitByUnderscore[i].substring(1).toLowerCase();
+			enumName += splitByUnderscore[i].substring(0, 1) + splitByUnderscore[i].substring(1).toLowerCase();
 		}
 
 		return enumName;
@@ -91,18 +87,10 @@ public class ChooserInput<T>
 
 			public void handle(ActionEvent event)
 			{
-				choice.set(choiceMap.get(choices.getSelectionModel().getSelectedItem()));
+				selection.set(choiceMap.get(choices.getSelectionModel().getSelectedItem()));
 			}
 		});
+		input = choices;
 	}
 
-	public ObjectProperty<T> getChoice()
-	{
-		return choice;
-	}
-
-	public ChoiceBox<String> getChoiceBox()
-	{
-		return choices;
-	}
 }

@@ -1,11 +1,10 @@
-package bs.gui.components.input.fieldeditors;
+package bs.fx.gui.inputs;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import bs.commons.dimvars.values.InitialValue;
+import bs.commons.objects.expansions.InitialValue;
 import bs.commons.objects.expansions.Range;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
@@ -13,23 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 
-public class ProtectedTextField<T>
+public class ProtectedTextField<T> extends UserInput<T>
 {
-
-	private ObjectProperty<T> parsedObject;
-
-	public ObjectProperty<T> getParsedObject()
-	{
-		return parsedObject;
-	}
 
 	private boolean inputIsRange;
 	private T initialValue;
-
-	public TextField getInput()
-	{
-		return input;
-	}
 
 	public ImageView getStatusIcon()
 	{
@@ -37,13 +24,13 @@ public class ProtectedTextField<T>
 	}
 
 	private String prompt;
-	private TextField input;
+	private TextField inputField;
 	private ImageView statusIcon;
 	private InitialValue random;
 
 	public ProtectedTextField(T initial_value, String prompt)//, Class<T> range_class)
 	{
-		parsedObject = new SimpleObjectProperty<T>(initial_value);
+		selection = new SimpleObjectProperty<T>(initial_value);
 		initialValue = initial_value;
 		this.prompt = prompt;
 		//inputClass = range_class;
@@ -52,7 +39,7 @@ public class ProtectedTextField<T>
 
 	//	public ProtectedTextField(T initial_value, String prompt, Class<T> input_class)
 	//	{
-	//		parsedObject = new SimpleObjectProperty<T>(initial_value);
+	//		selection = new SimpleObjectProperty<T>(initial_value);
 	//		initialValue = initial_value;
 	//		this.prompt = prompt;
 	//		inputClass = input_class;
@@ -69,24 +56,45 @@ public class ProtectedTextField<T>
 	{
 		statusIcon = new ImageView();
 		statusIcon.setImage(new Image("icons/GreenCheckMark.png", 20.0, 20.0, true, true));
+		status = statusIcon;
 	}
 
 	private void initializeTextField()
 	{
-		input = new TextField();
+		inputField = new TextField();
 		if (initialValue != null)
 		{
-			input.setText(initialValue.toString());
+			if (initialValue.getClass().equals(Range.class))
+			{
+				inputField.setText(((Range) initialValue).getLower().toString());
+			} else
+			{
+				inputField.setText(initialValue.toString());
+			}
 		}
 		if (prompt != null)
 		{
-			input.setPromptText(prompt);
+			inputField.setPromptText(prompt);
 		}
+		input = inputField;
+	}
+
+	private void initializeRangeText()
+	{
+
 	}
 
 	private void initializeActions()
 	{
-		input.setOnKeyReleased(new EventHandler<KeyEvent>()
+		inputField.setOnKeyReleased(new EventHandler<KeyEvent>()
+		{
+
+			public void handle(KeyEvent ke)
+			{
+				checkEntry();
+			}
+		});
+		inputField.setOnKeyPressed(new EventHandler<KeyEvent>()
 		{
 
 			public void handle(KeyEvent ke)
@@ -123,25 +131,37 @@ public class ProtectedTextField<T>
 			if (initialValue.getClass().equals(Range.class))
 			{
 				@SuppressWarnings("unchecked")
-				ArrayList<S> vals = parseValueSeries(input.getText(), ((Range) parsedObject.get()).getItemClass(), ",");
+				ArrayList<S> vals = parseValueSeries(inputField.getText(), ((Range) selection.get()).getItemClass(),
+				",");
 				if (vals.size() == 2)
 				{
-					parsedObject
-					.set((T) new Range<S>(vals.get(0), vals.get(1), ((Range) parsedObject.get()).getItemClass()));
+					Range<S> inputVal = new Range<S>(vals.get(0), vals.get(1),
+					((Range) selection.get()).getItemClass());
+					if (!(inputVal.getLower().equals(((Range) selection.get()).getLower())
+					&& (inputVal.getUpper().equals(((Range) selection.get()).getLower()))))
+					{
+						selection
+						.set((T) new Range<S>(vals.get(0), vals.get(1), ((Range) selection.get()).getItemClass()));
+					}
 				} else if (vals.size() == 1)
 				{
-					parsedObject.set((T) new Range<S>(vals.get(0), null, ((Range) parsedObject.get()).getItemClass()));
+					Range<S> inputVal = new Range<S>(vals.get(0), null, ((Range) selection.get()).getItemClass());
+					if (!(inputVal.getLower().equals(((Range) selection.get()).getLower())))
+					{
+						selection.set((T) new Range<S>(vals.get(0), null, ((Range) selection.get()).getItemClass()));
+					}
 				} else
 				{
 					throw new Exception();
 				}
 			} else
 			{
-				T val = (T) parseValue(input.getText(), initialValue.getClass());
-				parsedObject.set(val);
+				T val = (T) parseValue(inputField.getText(), initialValue.getClass());
+				selection.set(val);
 			}
 		} catch (Exception invalidInput)
 		{
+			invalidInput.printStackTrace();
 			validValue = false;
 		}
 		return validValue;
