@@ -13,7 +13,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
-public class MenuBarButton
+public class MenuBarButton extends BorderPane
 {
 
 	private String themeFile; // css file containing the theme for this button
@@ -22,7 +22,6 @@ public class MenuBarButton
 	private ObjectProperty<MenuIdentifier> updater; // object to store the method identifier when a click is detected
 	private Pos orientation; // orientation of the button
 	private MenuIdentifier details; // text that is displayed 
-	private BorderPane mainPane; // pane that contains the menu bar button (in case additional elements are to be addded)
 	private MenuBar bar = new MenuBar(); // the menu bar that is the container
 	private Menu menu = new Menu(); // the menu item that is the button
 	private Label label = new Label(); // the label which detects the click actions
@@ -51,13 +50,12 @@ public class MenuBarButton
 
 	private void initializeComponents()
 	{
-		mainPane = new BorderPane();
 		bar = new MenuBar();
 		label = new Label(details.getLabel());
 		menu = new Menu();
 		menu.setGraphic(label);
 		bar.getMenus().add(menu);
-		mainPane.setCenter(bar);
+		setCenter(bar);
 	}
 
 	private void setupActions()
@@ -88,18 +86,17 @@ public class MenuBarButton
 
 	private void applyTheme()
 	{
+		String disabledBackground = "-fx-background-color: rgb(50,50, 50);";
+		String disabledText = "-fx-text-fill: rgb(44,44,44); ";
+		IO.debug("Setting theme");
 		if (updater.get().equals(details))
 		{
-			bar.setStyle(selectedStyle);
+			menu.getStyleClass().add(selectedStyle);
+			label.getStyleClass().add(selectedStyle);
 		} else
 		{
-			bar.setStyle(unselectedStyle);
+			menu.setStyle(unselectedStyle);
 		}
-	}
-
-	public BorderPane getMainPane()
-	{
-		return mainPane;
 	}
 
 }

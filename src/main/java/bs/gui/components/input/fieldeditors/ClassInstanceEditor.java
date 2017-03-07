@@ -134,7 +134,7 @@ public class ClassInstanceEditor extends UserInput
 		{
 
 			System.out.println(fieldName);
-			//inputs.get(fieldName).getClass()).add(inputs.get(fieldName));
+			//	(inputs.get(fieldName).getClass()).add(inputs.get(fieldName));
 
 			inputBox.getChildren().add(inputs.get(fieldName).mainPane);
 

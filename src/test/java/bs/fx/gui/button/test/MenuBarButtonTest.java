@@ -45,7 +45,7 @@ public class MenuBarButtonTest extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		ObjectProperty<MenuIdentifier> prop = new SimpleObjectProperty<MenuIdentifier>(TestViewType.A);
+		ObjectProperty<MenuIdentifier> prop = new SimpleObjectProperty<MenuIdentifier>(null);
 		MenuBarButton a = new MenuBarButton(TestViewType.A, prop);
 		MenuBarButton b = new MenuBarButton(TestViewType.B, prop);
 		TextField testOutput = new TextField();
@@ -60,7 +60,7 @@ public class MenuBarButtonTest extends Application
 				testOutput.setText(newValue.getLabel() + " selected");
 			}
 		});
-		primaryStage.setScene(new Scene(new VBox(a.getMainPane(), b.getMainPane(), testOutput)));
+		primaryStage.setScene(new Scene(new VBox(a, b, testOutput)));
 		primaryStage.show();
 	}
 }
