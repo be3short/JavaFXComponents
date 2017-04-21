@@ -1,4 +1,6 @@
 package bs.fx.gui.button;
+
+import java.util.Collections;
 import java.util.HashMap;
 
 import bs.fx.organization.identifier.MenuIdentifier;
@@ -43,8 +45,8 @@ public class MenuBarPane extends BorderPane
 	{
 		selectorsVisible = true;
 		initializeFields();
-		initializeComponents();
 		setupActions();
+		initializeComponents();
 		setThemes();
 	}
 
@@ -57,18 +59,31 @@ public class MenuBarPane extends BorderPane
 
 	private void initializeComponents()
 	{
+		HashMap<Integer, MenuIdentifier> panesByIndex = new HashMap<Integer, MenuIdentifier>();
 		for (MenuIdentifier id : panes.keySet())
 		{
+			//MenuBarButton button = new MenuBarButton(id, updater);
 			MenuBarButton button = new MenuBarButton(id, updater);
+
 			selectionButtons.put(id, button);
-			selectorBox.getChildren().add(id.index(), button);
-			if (id.index() == 0)
+			setCenter(panes.get(id));
+			panesByIndex.put(id.index(), id);
+		}
+		placePanes(panesByIndex);
+
+	}
+
+	private void placePanes(HashMap<Integer, MenuIdentifier> panes_by_index)
+	{
+		for (Integer index : panes_by_index.keySet())
+		{
+			if (updater.get() == null)
 			{
-				updater.set(id);
+				selectorBox.getChildren().add(selectionButtons.get(panes_by_index.get(index)));
 			}
 		}
+		updater.set(panes_by_index.get(Collections.min(panes_by_index.keySet())));
 		setLeft(selectorBox);
-
 	}
 
 	public void setThemes() // apply defaults
@@ -93,6 +108,7 @@ public class MenuBarPane extends BorderPane
 			public void changed(ObservableValue<? extends MenuIdentifier> observable, MenuIdentifier oldValue,
 			MenuIdentifier newValue)
 			{
+				System.out.println("SHowingPane");
 				setCenter(panes.get(newValue));
 			}
 		});

@@ -52,6 +52,7 @@ public class MenuBarButton extends BorderPane
 	{
 		bar = new MenuBar();
 		label = new Label(details.getLabel());
+
 		menu = new Menu();
 		menu.setGraphic(label);
 		bar.getMenus().add(menu);
@@ -60,7 +61,8 @@ public class MenuBarButton extends BorderPane
 
 	private void setupActions()
 	{
-		label.setOnMouseClicked(new EventHandler<MouseEvent>()
+
+		label.setOnMousePressed(new EventHandler<MouseEvent>()
 
 		{
 
@@ -69,9 +71,9 @@ public class MenuBarButton extends BorderPane
 			{
 				updater.set(details);
 				IO.debug("menu bar button (" + details.getLabel() + ") clicked");
+				//event.consume();
 			}
 		});
-
 		updater.addListener(new ChangeListener<MenuIdentifier>()
 		{
 
@@ -86,8 +88,7 @@ public class MenuBarButton extends BorderPane
 
 	private void applyTheme()
 	{
-		String disabledBackground = "-fx-background-color: rgb(50,50, 50);";
-		String disabledText = "-fx-text-fill: rgb(44,44,44); ";
+
 		IO.debug("Setting theme");
 		if (updater.get().equals(details))
 		{

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import bs.commons.dimvars.core.UnitValue;
 import bs.commons.objects.execution.ExternalFieldUpdate;
+import bs.commons.unitvars.core.UnitValue;
 import bs.gui.components.menu.UserInput;
 
 public class InputSorter
@@ -28,35 +28,40 @@ public class InputSorter
 		UserInput input = null;
 		if (field_updater.field != null)
 		{
-
-			Class fieldValClass = field_updater.value.getClass();
-			System.out.println(field_updater.value.getClass().getSuperclass());
-			if (!skipClasses.contains(fieldValClass) && field_updater.field.getModifiers() != Modifier.FINAL)
+			try
 			{
-				if (textClasses.contains(fieldValClass))
+				Class fieldValClass = field_updater.value.getClass();
+				System.out.println(field_updater.value.getClass().getSuperclass());
+				if (!skipClasses.contains(fieldValClass) && field_updater.field.getModifiers() != Modifier.FINAL)
 				{
-					input = new ProtectedTextArea(field_updater, "Update", field_updater.value, field_updater.name);
-				} else if (fieldValClass.equals(Boolean.class))
-				{
-					input = new BooleanInput(field_updater, "Update", field_updater.value, field_updater.name);
-				} else if (fieldValClass.isEnum())
-				{
-					input = new ChoiceInput(field_updater, "Update", field_updater.value, field_updater.name,
-					fieldValClass.getEnumConstants());
-				} else if (field_updater.value.getClass().getSuperclass().equals(UnitValue.class))
-				{
-					//input = new UnitValueEditor(field_updater.name, (UnitValue) field_updater.value);
-					//	} else if (fieldValClass.getSuperclass().equals(Element.class))
-					//{
-					//input = new UnitValueEditor(field_updater.name, (UnitValue) ((Value) field_updater.value).v());
-				} else
-				{
-					input = new ClassInstanceEditor(field_updater.value);
+					if (textClasses.contains(fieldValClass))
+					{
+						input = new ProtectedTextArea(field_updater, "Update", field_updater.value, field_updater.name);
+					} else if (fieldValClass.equals(Boolean.class))
+					{
+						input = new BooleanInput(field_updater, "Update", field_updater.value, field_updater.name);
+					} else if (fieldValClass.isEnum())
+					{
+						input = new ChoiceInput(field_updater, "Update", field_updater.value, field_updater.name,
+						fieldValClass.getEnumConstants());
+					} else if (field_updater.value.getClass().getSuperclass().equals(UnitValue.class))
+					{
+						//input = new UnitValueEditor(field_updater.name, (UnitValue) field_updater.value);
+						//	} else if (fieldValClass.getSuperclass().equals(Element.class))
+						//{
+						//input = new UnitValueEditor(field_updater.name, (UnitValue) ((Value) field_updater.value).v());
+					} else
+					{
+						input = new ClassInstanceEditor(field_updater.value);
 
+					}
 				}
+
+			} catch (Exception nullField)
+			{
+
 			}
 		}
 		return input;
 	}
-
 }

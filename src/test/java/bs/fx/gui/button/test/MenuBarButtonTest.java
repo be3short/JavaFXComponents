@@ -40,6 +40,13 @@ public class MenuBarButtonTest extends Application
 			// TODO Auto-generated method stub
 			return labelName;
 		}
+
+		@Override
+		public Integer index()
+		{
+			// TODO Auto-generated method stub
+			return this.ordinal();
+		}
 	}
 
 	@Override

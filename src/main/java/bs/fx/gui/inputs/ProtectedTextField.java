@@ -204,6 +204,9 @@ public class ProtectedTextField<T> extends UserInput<T>
 		} else if (object_class.equals(Integer.class))
 		{
 			returnObject = Integer.parseInt(text);
+		} else if (object_class.equals(String.class))
+		{
+			returnObject = text;
 		} else
 		{
 			throw new IllegalArgumentException("Unable to parse " + text + " to " + object_class.getName());
