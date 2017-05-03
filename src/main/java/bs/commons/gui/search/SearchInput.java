@@ -1,21 +1,21 @@
 package bs.commons.gui.search;
 
-import bs.commons.objects.access.MethodAccessor;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 
 public class SearchInput extends BorderPane
 {
 
 	private Button clearSearch;
 	private TextField searchArea;
-
 	private Object methods;
+	private StringProperty currentSelection;
 
 	public SearchInput(Object search_object, String key_typed_method, String text_cleared_method)
 	{
@@ -36,6 +36,7 @@ public class SearchInput extends BorderPane
 		searchArea.setPromptText("Search Library");
 		setCenter(searchArea);
 		setRight(clearSearch);
+		currentSelection = new SimpleStringProperty();
 		// mainPane.setRight(clearSearch);
 	}
 
@@ -48,8 +49,9 @@ public class SearchInput extends BorderPane
 			{
 				try
 				{
-					MethodAccessor.executeMethod(methods, key_typed_method, searchArea.getText());
 					searchArea.clear();
+					currentSelection.setValue("");
+
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block
@@ -66,7 +68,8 @@ public class SearchInput extends BorderPane
 				try
 				{
 					System.out.println(searchArea.textProperty().get());
-					MethodAccessor.executeMethod(methods, key_typed_method, searchArea.getText());
+					currentSelection.setValue(searchArea.textProperty().get());
+					//MethodAccessor.executeMethod(methods, key_typed_method, searchArea.getText());
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block

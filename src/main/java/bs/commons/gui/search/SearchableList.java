@@ -31,7 +31,7 @@ public class SearchableList<T> extends BorderPane
 		list.getItems().addAll(listItems.keySet());
 		search = new SearchInput(this, Actions.filterList, Actions.clearFilter);
 		setCenter(list);
-		setBottom(search);
+		setTop(search);
 	}
 
 	public void applyFilter(String filter)

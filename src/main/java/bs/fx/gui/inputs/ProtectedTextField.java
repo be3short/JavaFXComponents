@@ -66,7 +66,8 @@ public class ProtectedTextField<T> extends UserInput<T>
 		{
 			if (initialValue.getClass().equals(Range.class))
 			{
-				inputField.setText(((Range) initialValue).getLower().toString());
+				inputField.setText(
+				((Range) initialValue).getLower().toString() + "," + ((Range) initialValue).getUpper().toString());
 			} else
 			{
 				inputField.setText(initialValue.toString());
