@@ -34,6 +34,18 @@ public class ChooserInput<T> extends UserInput<T>
 		selection.set(choiceMap.get(defaultChoiceName));
 	}
 
+	public ChooserInput(Class<T> choice_class, HashMap<String, T> mapping, String default_choice)
+	{
+		selection = new SimpleObjectProperty<T>(defaultChoice);
+		status = null;
+		choiceMap = new HashMap<String, T>();
+		defaultChoice = mapping.get(default_choice);
+		choiceClass = choice_class;
+		choiceMap = mapping;
+		initializeChoiceBox(default_choice);
+		selection.set(choiceMap.get(default_choice));
+	}
+
 	private String initializeBoolean()
 	{
 		choiceMap.put("True", choiceClass.cast(Boolean.TRUE));
@@ -49,6 +61,17 @@ public class ChooserInput<T> extends UserInput<T>
 	}
 
 	private String initializeEnum()
+	{
+		String defaultName = getChoiceName(defaultChoice);
+		for (T aChoice : choiceClass.getEnumConstants())
+		{
+			String getEnumName = getChoiceName(aChoice);
+			choiceMap.put(getEnumName, aChoice);
+		}
+		return defaultName;
+	}
+
+	private String initializeMap()
 	{
 		String defaultName = getChoiceName(defaultChoice);
 		for (T aChoice : choiceClass.getEnumConstants())
