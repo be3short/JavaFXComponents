@@ -13,6 +13,7 @@ import bs.commons.objects.labeling.LabelReader;
 import bs.commons.objects.manipulation.ObjectCloner;
 import bs.gui.components.actions.ActionButton;
 import bs.gui.components.menu.UserInput;
+
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -60,7 +61,7 @@ public class ClassInstanceEditor extends UserInput
 	@MethodId(id = Actions.clearChanges)
 	private void generateInputs()
 	{
-		//editedObject = ObjectCloner.xmlClone(initialObject);
+		// editedObject = ObjectCloner.xmlClone(initialObject);
 		VBox inputs = getInputBox(getInputs());
 		fieldScroll.setContent(inputs);
 		fieldScroll.setFitToWidth(false);
@@ -77,7 +78,7 @@ public class ClassInstanceEditor extends UserInput
 			try
 			{
 				initialVal = field.get(initialObject);
-				//field.set(editedObject, initialVal);
+				// field.set(editedObject, initialVal);
 			} catch (IllegalArgumentException | IllegalAccessException e)
 			{
 				// TODO Auto-generated catch block
@@ -134,7 +135,7 @@ public class ClassInstanceEditor extends UserInput
 		{
 
 			System.out.println(fieldName);
-			//	(inputs.get(fieldName).getClass()).add(inputs.get(fieldName));
+			// (inputs.get(fieldName).getClass()).add(inputs.get(fieldName));
 			try
 			{
 				inputBox.getChildren().add(inputs.get(fieldName).mainPane);

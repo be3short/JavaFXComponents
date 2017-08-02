@@ -1,8 +1,6 @@
 package bs.gui.components.menu;
 
 import bs.commons.objects.access.MethodAccessor;
-import bs.commons.objects.execution.ExternalFieldUpdate;
-import bs.commons.objects.execution.ExternalMethodExecutor;
 import javafx.scene.layout.BorderPane;
 
 public class UserInput
@@ -16,14 +14,19 @@ public class UserInput
 
 	public boolean checkIfValidInput()
 	{
-
-		Object val = MethodAccessor.executeMethod(this, Actions.getInput);
-		if (val == null)
+		try
+		{
+			Object val = MethodAccessor.executeMethod(this, Actions.getInput);
+			if (val == null)
+			{
+				return false;
+			} else
+			{
+				return true;
+			}
+		} catch (Exception e)
 		{
 			return false;
-		} else
-		{
-			return true;
 		}
 	}
 
@@ -60,7 +63,7 @@ public class UserInput
 	public static class Actions
 	{
 
-		public static final String getInput = "Get Input";
+		public static final String getInput = "Update";
 	}
 
 }

@@ -1,5 +1,7 @@
 package bs.gui.components.input.fieldeditors;
 
+import bs.commons.objects.access.FieldFinder;
+import bs.commons.objects.execution.MethodId;
 import bs.gui.components.menu.UserInput;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -105,4 +107,38 @@ public class ProtectedTextArea extends UserInput
 		});
 	}
 
+	@MethodId(id = Actions.getInput)
+	public Object getInputValue()
+	{
+		Object val = null;
+		String inputText = input.getText();
+		try
+		{
+			if (defaultValue.getClass().equals(Double.class))
+			{
+				if (inputText.substring(0, 1).equals("r"))
+				{
+					Double minVal = Double.parseDouble(inputText.substring(1).split(",")[0]);
+					Double maxVal = Double.parseDouble(inputText.substring(1).split(",")[1]);
+					val = minVal;// new InitialValue(minVal, maxVal);
+
+				} else
+				{
+					val = Double.parseDouble(inputText);
+				}
+			} else if (defaultValue.getClass().equals(Integer.class))
+			{
+				val = Integer.parseInt(inputText);
+			} else if (defaultValue.getClass().equals(Boolean.class))
+			{
+				val = Boolean.parseBoolean(inputText);
+			} else if (defaultValue.getClass().equals(String.class))
+			{
+				val = inputText;
+			}
+		} catch (Exception notValid)
+		{
+		}
+		return val;
+	}
 }
