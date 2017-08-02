@@ -30,8 +30,8 @@ public class BooleanInput extends UserInput
 		defaultValue = default_value;
 		this.name = name;
 		choices = new HashMap<String, Boolean>();
-		choices.put("True", true);
-		choices.put("False", false);
+		choices.put("true", true);
+		choices.put("false", false);
 		initialize();
 	}
 
@@ -66,7 +66,7 @@ public class BooleanInput extends UserInput
 	private void setupMenu()
 	{
 		choiceBox = new ComboBox<String>(FXCollections.observableArrayList(choices.keySet()));
-		choiceBox.getSelectionModel().select(0);
+		choiceBox.getSelectionModel().select(defaultValue.toString());
 		choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>()
 		{
 
@@ -75,7 +75,8 @@ public class BooleanInput extends UserInput
 				executeUpdate();
 
 				// parent.HandleInputEvent(actionId,
-				// selections.get(selections.keySet().toArray(new String[selections.size()])[new_value.intValue()]),
+				// selections.get(selections.keySet().toArray(new
+				// String[selections.size()])[new_value.intValue()]),
 				// locationId);
 			}
 		});

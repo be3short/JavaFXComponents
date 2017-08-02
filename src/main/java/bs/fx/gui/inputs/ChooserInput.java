@@ -1,5 +1,6 @@
 package bs.fx.gui.inputs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -17,7 +18,10 @@ public class ChooserInput<T> extends UserInput<T>
 
 	public ChooserInput(Class<T> choice_class, T default_choice)
 	{
-		selection = new SimpleObjectProperty<T>(defaultChoice);
+		selection = new SimpleObjectProperty<ArrayList<T>>();
+		ArrayList<T> choices = new ArrayList<T>();
+		choices.add(default_choice);/// defaultChoice);
+		selection.set(choices);
 		status = null;
 		choiceMap = new HashMap<String, T>();
 		defaultChoice = default_choice;
@@ -31,19 +35,20 @@ public class ChooserInput<T> extends UserInput<T>
 			defaultChoiceName = initializeEnum();
 		}
 		initializeChoiceBox(defaultChoiceName);
-		selection.set(choiceMap.get(defaultChoiceName));
+		// selection.set(choiceMap.get(defaultChoiceName));
 	}
 
 	public ChooserInput(Class<T> choice_class, HashMap<String, T> mapping, String default_choice)
 	{
-		selection = new SimpleObjectProperty<T>(defaultChoice);
-		status = null;
-		choiceMap = new HashMap<String, T>();
+		selection = new SimpleObjectProperty<ArrayList<T>>();
+		ArrayList<T> choices = new ArrayList<T>();
+		choices.add(mapping.get(default_choice));/// defaultChoice);
+		selection.set(choices);
 		defaultChoice = mapping.get(default_choice);
 		choiceClass = choice_class;
 		choiceMap = mapping;
 		initializeChoiceBox(default_choice);
-		selection.set(choiceMap.get(default_choice));
+		// selection.get().(choiceMap.get(default_choice));
 	}
 
 	private String initializeBoolean()
@@ -110,7 +115,10 @@ public class ChooserInput<T> extends UserInput<T>
 
 			public void handle(ActionEvent event)
 			{
-				selection.set(choiceMap.get(choices.getSelectionModel().getSelectedItem()));
+				selection.get().clear();
+				ArrayList<T> choicez = new ArrayList<T>();
+				choicez.add(choiceMap.get(choices.getSelectionModel().getSelectedItem()));
+				selection.set(choicez);
 			}
 		});
 		input = choices;

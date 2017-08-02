@@ -3,16 +3,22 @@ package bs.commons.gui.search;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import bs.commons.gui.search.SearchInput.SearchEvent;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 
-public class SearchableList<T> extends BorderPane
+public class SearchableList<T> extends BorderPane implements EventResponder
 {
 
 	private HashMap<String, T> listItems;
 	private ListView<String> list;
 	private ArrayList<String> filteredList;
 	private SearchInput search;
+
+	public SearchInput getSearch()
+	{
+		return search;
+	}
 
 	public SearchableList(HashMap<String, T> list_items)
 	{
@@ -31,7 +37,7 @@ public class SearchableList<T> extends BorderPane
 		list.getItems().addAll(listItems.keySet());
 		search = new SearchInput(this, Actions.filterList, Actions.clearFilter);
 		setCenter(list);
-		setTop(search);
+		setBottom(search);
 	}
 
 	public void applyFilter(String filter)
@@ -75,5 +81,25 @@ public class SearchableList<T> extends BorderPane
 
 		public static final String filterList = "Filter List";
 		public static final String clearFilter = "Clear filter";
+	}
+
+	@Override
+	public void newEvent(Object location)
+	{
+		if (location.equals(SearchEvent.SEARCH_CLEARED))
+		{
+			applyFilter("");
+		}
+
+	}
+
+	@Override
+	public void newEvent(Object source, Object selection)
+	{
+		// TODO Auto-generated method stub
+		if (source.equals(SearchEvent.NEW_CHARACTERS))
+		{
+			applyFilter(selection.toString());
+		}
 	}
 }

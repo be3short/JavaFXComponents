@@ -1,10 +1,9 @@
 package bs.fx.gui.inputs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
-import bs.commons.objects.expansions.InitialValue;
-import bs.commons.objects.expansions.Range;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
@@ -26,25 +25,30 @@ public class ProtectedTextField<T> extends UserInput<T>
 	private String prompt;
 	private TextField inputField;
 	private ImageView statusIcon;
-	private InitialValue random;
+	// private InitialValue random;
 
-	public ProtectedTextField(T initial_value, String prompt)//, Class<T> range_class)
+	public ProtectedTextField(T... initial_value)// , Class<T>
+													// range_class)
 	{
-		selection = new SimpleObjectProperty<T>(initial_value);
-		initialValue = initial_value;
+		selection = new SimpleObjectProperty<ArrayList<T>>();
+		ArrayList<T> selections = new ArrayList<T>();
+		selections.addAll(Arrays.asList(initial_value));
+		selection.set(selections);
 		this.prompt = prompt;
-		//inputClass = range_class;
+		initialValue = initial_value[0];
+		// inputClass = range_class;
 		initialize();
 	}
 
-	//	public ProtectedTextField(T initial_value, String prompt, Class<T> input_class)
-	//	{
-	//		selection = new SimpleObjectProperty<T>(initial_value);
-	//		initialValue = initial_value;
-	//		this.prompt = prompt;
-	//		inputClass = input_class;
-	//		initialize();
-	//	}
+	// public ProtectedTextField(T initial_value, String prompt, Class<T>
+	// input_class)
+	// {
+	// selection = new SimpleObjectProperty<T>(initial_value);
+	// initialValue = initial_value;
+	// this.prompt = prompt;
+	// inputClass = input_class;
+	// initialize();
+	// }
 	private void initialize()
 	{
 		initializeTextField();
@@ -62,21 +66,19 @@ public class ProtectedTextField<T> extends UserInput<T>
 	private void initializeTextField()
 	{
 		inputField = new TextField();
-		if (initialValue != null)
+		String text = "";
+		try
 		{
-			if (initialValue.getClass().equals(Range.class))
+			text += selection.get().get(0);
+			for (int i = 1; i < selection.get().size(); i++)
 			{
-				inputField.setText(
-				((Range) initialValue).getLower().toString() + "," + ((Range) initialValue).getUpper().toString());
-			} else
-			{
-				inputField.setText(initialValue.toString());
+				text += "," + selection.get().get(i);
 			}
-		}
-		if (prompt != null)
+		} catch (Exception e)
 		{
-			inputField.setPromptText(prompt);
+
 		}
+		inputField.setText(text);
 		input = inputField;
 	}
 
@@ -129,56 +131,66 @@ public class ProtectedTextField<T> extends UserInput<T>
 		boolean validValue = true;
 		try
 		{
-			if (initialValue.getClass().equals(Range.class))
-			{
-				@SuppressWarnings("unchecked")
-				ArrayList<S> vals = parseValueSeries(inputField.getText(), ((Range) selection.get()).getItemClass(),
-				",");
-				if (vals.size() == 2)
-				{
-					Range<S> inputVal = new Range<S>(vals.get(0), vals.get(1),
-					((Range) selection.get()).getItemClass());
-					if (!(inputVal.getLower().equals(((Range) selection.get()).getLower())
-					&& (inputVal.getUpper().equals(((Range) selection.get()).getLower()))))
-					{
-						selection
-						.set((T) new Range<S>(vals.get(0), vals.get(1), ((Range) selection.get()).getItemClass()));
-					}
-				} else if (vals.size() == 1)
-				{
-					Range<S> inputVal = new Range<S>(vals.get(0), null, ((Range) selection.get()).getItemClass());
-					if (!(inputVal.getLower().equals(((Range) selection.get()).getLower())))
-					{
-						selection.set((T) new Range<S>(vals.get(0), null, ((Range) selection.get()).getItemClass()));
-					}
-				} else
-				{
-					throw new Exception();
-				}
-			} else
-			{
-				T val = (T) parseValue(inputField.getText(), initialValue.getClass());
-				selection.set(val);
-			}
-		} catch (Exception invalidInput)
+			// try// (selection.get().size())
+			// {
+			@SuppressWarnings("unchecked")
+			ArrayList<S> vals = (ArrayList<S>) parseValueSeries(inputField.getText(), initialValue.getClass(), ",");
+			// selection.get().addAll((Collection<? extends T>) vals);
+			selection.set((ArrayList<T>) vals);
+			// if (vals.size() == 2)
+			// {
+			// Range<S> inputVal = new Range<S>(vals.get(0), vals.get(1),
+			// ((Range) selection.get()).getItemClass());
+			// if (!(inputVal.getLower().equals(((Range)
+			// selection.get()).getLower())
+			// && (inputVal.getUpper().equals(((Range)
+			// selection.get()).getLower()))))
+			// {
+			// selection
+			// .set((T) new Range<S>(vals.get(0), vals.get(1), ((Range)
+			// selection.get()).getItemClass()));
+			// }
+			// } else if (vals.size() == 1)
+			// {
+			// Range<S> inputVal = new Range<S>(vals.get(0), null, ((Range)
+			// selection.get()).getItemClass());
+			// if (!(inputVal.getLower().equals(((Range)
+			// selection.get()).getLower())))
+			// {
+			// selection.set((T) new Range<S>(vals.get(0), null, ((Range)
+			// selection.get()).getItemClass()));
+			// }
+			// } else
+			// {
+			// throw new Exception();
+			// }
+			// } else
+			// {
+			// T val = (T) parseValue(inputField.getText(),
+			// initialValue.getClass());
+			// selection.set(val);
+			// }
+		} catch (
+
+		Exception invalidInput)
 		{
 			invalidInput.printStackTrace();
 			validValue = false;
 		}
 		return validValue;
 	}
-	//	@MethodId(id = Actions.getInput)
-	//	public <T> T getInputValue()
-	//	{
-	//		T val = null;
-	//		String inputText = input.getText();
-	//		
-	//	}catch(
+	// @MethodId(id = Actions.getInput)
+	// public <T> T getInputValue()
+	// {
+	// T val = null;
+	// String inputText = input.getText();
 	//
-	//	Exception notValid)
-	//	{
-	//	}return val;
-	//	}
+	// }catch(
+	//
+	// Exception notValid)
+	// {
+	// }return val;
+	// }
 
 	public static <S> ArrayList<S> parseValueSeries(String text, Class<S> object_class, String separation_char)
 	throws IllegalArgumentException

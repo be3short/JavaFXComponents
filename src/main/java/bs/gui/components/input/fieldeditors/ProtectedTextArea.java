@@ -1,8 +1,8 @@
 package bs.gui.components.input.fieldeditors;
 
 import bs.commons.objects.execution.MethodId;
-import bs.commons.objects.expansions.InitialValue;
 import bs.gui.components.menu.UserInput;
+import edu.ucsc.cross.hse.core.object.domain.ValueDomain;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,7 +21,7 @@ public class ProtectedTextArea extends UserInput
 	private TextField input;
 	private Text status;
 	private ImageView statusIcon;
-	private InitialValue random;
+	// private ValueDomain random;
 
 	public ProtectedTextArea(Object update, String update_id, Object default_value, String name)
 	{
@@ -54,13 +54,13 @@ public class ProtectedTextArea extends UserInput
 		input = new TextField();
 
 		input.setText(defaultValue.toString());
-		//status = new Label("Ok");
+		// status = new Label("Ok");
 		statusIcon = new ImageView();
 		statusIcon.setImage(new Image("icons/GreenCheckMark.png", 20.0, 20.0, true, true));
-		//	statusIcon.resize(10.0, 10.0);
+		// statusIcon.resize(10.0, 10.0);
 
-		//inputBox.setCenter(input);
-		//inputBox.setRight(statusIcon);
+		// inputBox.setCenter(input);
+		// inputBox.setRight(statusIcon);
 		if (name.length() > 0)
 		{
 			mainPane.setLeft(titleBox);
@@ -120,8 +120,8 @@ public class ProtectedTextArea extends UserInput
 				{
 					Double minVal = Double.parseDouble(inputText.substring(1).split(",")[0]);
 					Double maxVal = Double.parseDouble(inputText.substring(1).split(",")[1]);
-					val = new InitialValue(minVal, maxVal);
-
+					val = new ValueDomain(minVal, maxVal);
+					// val = minVal;
 				} else
 				{
 					val = Double.parseDouble(inputText);

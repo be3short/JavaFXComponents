@@ -1,6 +1,5 @@
 package bs.fx.gui.button;
 
-import bs.commons.io.system.IO;
 import bs.fx.organization.identifier.MenuIdentifier;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -17,14 +16,19 @@ public class MenuBarButton extends BorderPane
 {
 
 	private String themeFile; // css file containing the theme for this button
-	private String selectedStyle; // name of style to apply when button is the selection
-	private String unselectedStyle; // name of style to apply when button is not the selection
-	private ObjectProperty<MenuIdentifier> updater; // object to store the method identifier when a click is detected
+	private String selectedStyle; // name of style to apply when button is the
+									// selection
+	private String unselectedStyle; // name of style to apply when button is not
+									// the selection
+	private ObjectProperty<MenuIdentifier> updater; // object to store the
+													// method identifier when a
+													// click is detected
 	private Pos orientation; // orientation of the button
-	private MenuIdentifier details; // text that is displayed 
+	private MenuIdentifier details; // text that is displayed
 	private MenuBar bar = new MenuBar(); // the menu bar that is the container
 	private Menu menu = new Menu(); // the menu item that is the button
-	private Label label = new Label(); // the label which detects the click actions
+	private Label label = new Label(); // the label which detects the click
+										// actions
 
 	public MenuBarButton(MenuIdentifier details, ObjectProperty<MenuIdentifier> update_object)
 	{
@@ -70,8 +74,9 @@ public class MenuBarButton extends BorderPane
 			public void handle(MouseEvent event)
 			{
 				updater.set(details);
-				IO.debug("menu bar button (" + details.getLabel() + ") clicked");
-				//event.consume();
+				// IO.debug("menu bar button (" + details.getLabel() + ")
+				// clicked");
+				// event.consume();
 			}
 		});
 		updater.addListener(new ChangeListener<MenuIdentifier>()
@@ -89,7 +94,6 @@ public class MenuBarButton extends BorderPane
 	private void applyTheme()
 	{
 
-		IO.debug("Setting theme");
 		if (updater.get().equals(details))
 		{
 			menu.getStyleClass().add(selectedStyle);

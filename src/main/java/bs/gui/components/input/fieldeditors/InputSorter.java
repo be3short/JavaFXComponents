@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import bs.commons.objects.execution.ExternalFieldUpdate;
-import bs.commons.unitvars.core.UnitValue;
 import bs.gui.components.menu.UserInput;
 
 public class InputSorter
@@ -44,12 +43,6 @@ public class InputSorter
 					{
 						input = new ChoiceInput(field_updater, "Update", field_updater.value, field_updater.name,
 						fieldValClass.getEnumConstants());
-					} else if (field_updater.value.getClass().getSuperclass().equals(UnitValue.class))
-					{
-						//input = new UnitValueEditor(field_updater.name, (UnitValue) field_updater.value);
-						//	} else if (fieldValClass.getSuperclass().equals(Element.class))
-						//{
-						//input = new UnitValueEditor(field_updater.name, (UnitValue) ((Value) field_updater.value).v());
 					} else
 					{
 						input = new ClassInstanceEditor(field_updater.value);

@@ -1,16 +1,18 @@
 package bs.fx.gui.inputs;
 
+import java.util.ArrayList;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 
 public abstract class UserInput<T>
 {
 
-	protected ObjectProperty<T> selection;
+	protected ObjectProperty<ArrayList<T>> selection;
 	protected Node input;
 	protected Node status;
 
-	public ObjectProperty<T> getInput()
+	public ObjectProperty<ArrayList<T>> getInput()
 	{
 		return selection;
 	}

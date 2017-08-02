@@ -14,10 +14,10 @@ public class SearchInput extends BorderPane
 
 	private Button clearSearch;
 	private TextField searchArea;
-	private Object methods;
+	private EventResponder methods;
 	private StringProperty currentSelection;
 
-	public SearchInput(Object search_object, String key_typed_method, String text_cleared_method)
+	public SearchInput(EventResponder search_object, String key_typed_method, String text_cleared_method)
 	{
 		methods = search_object;
 		initialize(key_typed_method, text_cleared_method);
@@ -51,6 +51,7 @@ public class SearchInput extends BorderPane
 				{
 					searchArea.clear();
 					currentSelection.setValue("");
+					methods.newEvent(SearchEvent.SEARCH_CLEARED);
 
 				} catch (Exception e)
 				{
@@ -69,7 +70,9 @@ public class SearchInput extends BorderPane
 				{
 					System.out.println(searchArea.textProperty().get());
 					currentSelection.setValue(searchArea.textProperty().get());
-					//MethodAccessor.executeMethod(methods, key_typed_method, searchArea.getText());
+					methods.newEvent(SearchEvent.NEW_CHARACTERS, searchArea.getText());
+					// MethodAccessor.executeMethod(methods, key_typed_method,
+					// searchArea.getText());
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block
@@ -77,5 +80,11 @@ public class SearchInput extends BorderPane
 				}
 			}
 		});
+	}
+
+	public static enum SearchEvent
+	{
+		NEW_CHARACTERS,
+		SEARCH_CLEARED;
 	}
 }

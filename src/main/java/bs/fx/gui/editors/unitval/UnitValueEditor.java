@@ -2,11 +2,11 @@ package bs.fx.gui.editors.unitval;
 
 import java.util.ArrayList;
 
+import bs.commons.dimvars.core.UnitData;
+import bs.commons.dimvars.core.UnitValue;
+import bs.commons.dimvars.exceptions.UnitException;
 import bs.commons.objects.execution.ContinuousFieldLoader;
 import bs.commons.objects.execution.ContinuousFieldLoader.MethodLabel;
-import bs.commons.unitvars.core.UnitData;
-import bs.commons.unitvars.core.UnitValue;
-import bs.commons.unitvars.exceptions.UnitException;
 import bs.gui.components.input.fieldeditors.ChoiceInput;
 import bs.gui.components.input.fieldeditors.ProtectedTextArea;
 import bs.gui.components.menu.UserInput;
@@ -41,14 +41,14 @@ public class UnitValueEditor extends UserInput
 	{
 		Separator sepp = new Separator();
 		sepp.setPrefHeight(10.0);
-		//setTop(sepp);
+		// setTop(sepp);
 		ContinuousFieldLoader valLoader;
 		try
 		{
 			valLoader = new ContinuousFieldLoader(unitVal.getClass().getField("value"), unitVal, "value");
 			ProtectedTextArea inputArea = new ProtectedTextArea(valLoader, MethodLabel.update,
 			unitVal.get(unitVal.getUnit()), variableName);
-			//HBox input = (HBox) inputArea.mainPane.getCenter();
+			// HBox input = (HBox) inputArea.mainPane.getCenter();
 			System.out.println(unitVal.toString());
 			ContinuousFieldLoader unitLoader = new ContinuousFieldLoader(unitVal.getClass().getField("unit"), unitVal,
 			"unit");
@@ -64,7 +64,7 @@ public class UnitValueEditor extends UserInput
 				unitVal, "rate");
 				ChoiceInput rateInput = new ChoiceInput(unitLoader, MethodLabel.update, unitVal.getUnit(), "Unit",
 				null);
-				//TimeUnit.values());
+				// TimeUnit.values());
 				input.getChildren().add(new Label(" per "));
 				input.getChildren().add(rateInput.mainPane.getRight());
 
@@ -78,10 +78,11 @@ public class UnitValueEditor extends UserInput
 			try
 			{
 				unitStr = UnitData.getUnitData(unitVal.getUnit()).unitName;
-				//				if (unitVal..rate != null)
-				//				{
-				//					unitStr += "/" + UnitData.getUnitData(unitVal.getUnit()).getUnit()Abbreviation;
-				//				}
+				// if (unitVal..rate != null)
+				// {
+				// unitStr += "/" +
+				// UnitData.getUnitData(unitVal.getUnit()).getUnit()Abbreviation;
+				// }
 				unitStr = variableName + "(" + unitStr + ")";
 			} catch (UnitException e)
 			{
@@ -92,7 +93,7 @@ public class UnitValueEditor extends UserInput
 			ToggleButton showUnits = new ToggleButton(unitStr);
 			input.setAlignment(Pos.CENTER_RIGHT);
 			HBox textInput = (HBox) inputArea.mainPane.getRight();
-			//	textInput.setPrefWidth(280.0);
+			// textInput.setPrefWidth(280.0);
 			showUnits.setOnAction(new EventHandler<ActionEvent>()
 			{
 
@@ -101,12 +102,12 @@ public class UnitValueEditor extends UserInput
 					if (showUnits.isSelected())
 					{
 						showUnits.setText(variableName);
-						//inputArea.mainPane.setRight(input);
+						// inputArea.mainPane.setRight(input);
 						mainPane.setBottom(input);
 					} else
 					{
 						mainPane.setBottom(null);
-						//inputArea.mainPane.setRight(textInput);
+						// inputArea.mainPane.setRight(textInput);
 
 						try
 						{
@@ -126,22 +127,22 @@ public class UnitValueEditor extends UserInput
 					}
 				}
 			});
-			//setBottom(input);
+			// setBottom(input);
 			showUnits.setSelected(false);
 
-			//setTop(inputArea.mainPane);
+			// setTop(inputArea.mainPane);
 			mainPane.setCenter(inputArea.mainPane);
-			//Separator sep = new Separator();
-			//HBox boxx = (HBox) inputArea.mainPane.getRight();
-			//inputArea.mainPane.setCenter(null);
-			//boxx.getChildren().add(0, showUnits);
-			//inputArea.mainPane.setLeft(null);
-			//mainPane.setCenter(inputArea.mainPane);
+			// Separator sep = new Separator();
+			// HBox boxx = (HBox) inputArea.mainPane.getRight();
+			// inputArea.mainPane.setCenter(null);
+			// boxx.getChildren().add(0, showUnits);
+			// inputArea.mainPane.setLeft(null);
+			// mainPane.setCenter(inputArea.mainPane);
 			mainPane.setLeft(showUnits);
 
-			//			Stage s = new Stage();
-			//			s.setScene(new Scene(mainPane));
-			//			s.show();
+			// Stage s = new Stage();
+			// s.setScene(new Scene(mainPane));
+			// s.show();
 
 		} catch (Exception e)
 		{
