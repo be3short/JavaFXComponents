@@ -29,5 +29,6 @@ dependencies {
    // compile 'com.github.brendan1991:TerminalFX:-SNAPSHOT'
   //  compile 'com.asciidocfx:terminalfx:-SNAPSHOT'
   compile 'com.github.brendan1991:UnitValues:v0.3'
+  compile 'com.github.be3short:ObjectTools:v0.2.2'
 }
 

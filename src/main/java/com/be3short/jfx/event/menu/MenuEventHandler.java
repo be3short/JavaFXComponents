@@ -2,12 +2,11 @@ package com.be3short.jfx.event.menu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
@@ -66,13 +65,20 @@ public abstract class MenuEventHandler implements MenuEventResponse
 
 	public ArrayList<MenuItem> getRootMenuItems()
 	{
+		HashMap<String, MenuItem> itemMap = new HashMap<String, MenuItem>();
 		ArrayList<MenuItem> items = new ArrayList<MenuItem>();
 		for (MenuItem roots : menuDefinitionMap.keySet())
 		{
 			if (rootMenuDefinitions.contains(menuDefinitionMap.get(roots)))
 			{
-				items.add(roots);
+				itemMap.put(menuDefinitionMap.get(roots).label(), roots);
 			}
+		}
+		ArrayList<String> alphabeticalNames = new ArrayList<String>(itemMap.keySet());
+		Collections.sort(alphabeticalNames);
+		for (String itemName : alphabeticalNames)
+		{
+			items.add(itemMap.get(itemName));
 		}
 		return items;
 	}
