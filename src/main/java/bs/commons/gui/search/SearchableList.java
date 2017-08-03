@@ -34,6 +34,7 @@ public class SearchableList<T> extends BorderPane implements EventResponder
 	private void initialize()
 	{
 		list = new ListView<String>();
+		filteredList = new ArrayList<String>();
 		list.getItems().addAll(listItems.keySet());
 		search = new SearchInput(this, Actions.filterList, Actions.clearFilter);
 		setCenter(list);
@@ -50,8 +51,8 @@ public class SearchableList<T> extends BorderPane implements EventResponder
 				list.getItems().add(name);
 			}
 		}
-		list.getItems().clear();
-		list.getItems().addAll(filteredList);
+		// list.getItems().clear();
+		// list.getItems().addAll(filteredList);
 	}
 
 	public T getSelectedObject()
