@@ -3,8 +3,8 @@ package com.be3short.jfx.buttons;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.be3short.jfx.event.structure.ActionDefinition;
-import com.be3short.jfx.event.structure.ActionEventHandler;
+import com.be3short.jfx.event.menu.ActionDefinition;
+import com.be3short.jfx.event.menu.ActionEventHandler;
 
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;

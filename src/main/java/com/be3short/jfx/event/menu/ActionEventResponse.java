@@ -1,4 +1,4 @@
-package com.be3short.jfx.event.structure;
+package com.be3short.jfx.event.menu;
 
 public interface ActionEventResponse
 {

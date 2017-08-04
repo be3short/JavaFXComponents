@@ -2,8 +2,8 @@ package bs.gui.components.menu;
 
 import java.util.ArrayList;
 
-import com.be3short.jfx.event.structure.ActionDefinition;
-import com.be3short.jfx.event.structure.ActionEventHandler;
+import com.be3short.jfx.event.menu.ActionDefinition;
+import com.be3short.jfx.event.menu.ActionEventHandler;
 
 import bs.commons.objects.manipulation.ObjectCloner;
 import javafx.beans.property.SimpleStringProperty;

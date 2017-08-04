@@ -1,7 +1,7 @@
 package com.be3short.jfx.buttons;
 
 import com.be3short.jfx.connectors.ApplicationPropertiesInterface;
-import com.be3short.jfx.event.structure.ActionEventHandler;
+import com.be3short.jfx.event.menu.ActionEventHandler;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
