@@ -23,6 +23,11 @@ public abstract class MenuEventHandler implements MenuEventResponse
 	 * Mapping of all menu items to the corresponding definition
 	 */
 	public HashMap<MenuItem, MenuDefinition> menuDefinitionMap;
+
+	/*
+	 * Mapping of all menu items to the corresponding definition
+	 */
+	public HashMap<MenuDefinition, MenuItem> definitionMenuMap;
 	/*
 	 * Currently selected menu item
 	 */
@@ -60,7 +65,7 @@ public abstract class MenuEventHandler implements MenuEventResponse
 			clearData();
 		}
 		rootMenuDefinitions.addAll(Arrays.asList(root_menus));
-		initializeMenus();
+		initializeMenus(root_menus);
 	}
 
 	public ArrayList<MenuItem> getRootMenuItems()
@@ -83,6 +88,16 @@ public abstract class MenuEventHandler implements MenuEventResponse
 		return items;
 	}
 
+	public MenuItem getMenuItemFromDefinition(MenuDefinition def)
+	{
+		MenuItem ret = null;
+		if (definitionMenuMap.containsKey(def))
+		{
+			ret = definitionMenuMap.get(def);
+		}
+		return ret;
+	}
+
 	private void clearData()
 	{
 		rootMenuDefinitions.clear();
@@ -95,6 +110,7 @@ public abstract class MenuEventHandler implements MenuEventResponse
 	{
 		rootMenuDefinitions = new ArrayList<MenuDefinition>();
 		menuDefinitionMap = new HashMap<MenuItem, MenuDefinition>();
+		definitionMenuMap = new HashMap<MenuDefinition, MenuItem>();
 		menuItemSelected = new SimpleObjectProperty<Object>();
 		selectionActionResult = new SimpleObjectProperty<Object>();
 		clearData();
@@ -107,16 +123,17 @@ public abstract class MenuEventHandler implements MenuEventResponse
 
 			public void handle(ActionEvent event)
 			{
+				menuItemSelected.set(menuDefinitionMap.get(menu));
 				Object result = respondToEvent(menuDefinitionMap.get(menu));
 				selectionActionResult.set(result);
-				menuItemSelected.set(menuDefinitionMap.get(menu));
+				// menuItemSelected.set(menuDefinitionMap.get(menu));
 			}
 		});
 	}
 
-	private void initializeMenus()
+	private void initializeMenus(MenuDefinition... menus)
 	{
-		for (MenuDefinition menuInfo : rootMenuDefinitions)
+		for (MenuDefinition menuInfo : menus)
 		{
 			if (!menuDefinitionMap.containsValue(menuInfo))
 			{
@@ -130,7 +147,7 @@ public abstract class MenuEventHandler implements MenuEventResponse
 
 				}
 				menuDefinitionMap.put(subMenu, menuInfo);
-
+				definitionMenuMap.put(menuInfo, subMenu);
 			}
 		}
 
@@ -152,8 +169,9 @@ public abstract class MenuEventHandler implements MenuEventResponse
 					if (subMenu != null)
 					{
 						((Menu) menu).getItems().add(subMenu);
-						// initializeMenuActions(subMenu);
+						initializeMenuActions(subMenu);
 						menuDefinitionMap.put(subMenu, subMenuInfo);
+						definitionMenuMap.put(subMenuInfo, subMenu);
 					}
 				}
 

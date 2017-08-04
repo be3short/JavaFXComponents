@@ -14,6 +14,17 @@ public class TabMenuButton
 {
 
 	Node displayContent;
+
+	public Node getDisplayContent()
+	{
+		return displayContent;
+	}
+
+	public void setDisplayContent(Node displayContent)
+	{
+		this.displayContent = displayContent;
+	}
+
 	public SplitMenuButton button;
 	private Label buttonLabel;
 	private MenuEventHandler eventHandler;
