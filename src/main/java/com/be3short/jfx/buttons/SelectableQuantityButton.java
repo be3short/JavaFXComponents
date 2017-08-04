@@ -3,16 +3,16 @@ package com.be3short.jfx.buttons;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.be3short.jfx.event.menu.MenuDefinition;
-import com.be3short.jfx.event.menu.MenuEventHandler;
+import com.be3short.jfx.event.structure.ActionDefinition;
+import com.be3short.jfx.event.structure.ActionEventHandler;
 
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 
-public class SelectableQuantityButton extends MenuEventHandler
+public class SelectableQuantityButton extends ActionEventHandler
 {
 
-	private HashMap<MenuDefinition, Integer> quantities;
+	private HashMap<ActionDefinition, Integer> quantities;
 	private SplitMenuButton button;
 	private Integer quantity;
 	private String prefix;
@@ -22,7 +22,7 @@ public class SelectableQuantityButton extends MenuEventHandler
 		quantity = 1;
 		prefix = "Add";
 		initializeListItems(total);
-		super.loadMenuDefinitions(false, quantities.keySet().toArray(new MenuDefinition[quantities.size()]));
+		super.loadMenuDefinitions(false, quantities.keySet().toArray(new ActionDefinition[quantities.size()]));
 		initializeButton();
 	}
 
@@ -31,7 +31,7 @@ public class SelectableQuantityButton extends MenuEventHandler
 		quantity = 1;
 		this.prefix = prefix;
 		initializeListItems(total);
-		super.loadMenuDefinitions(false, quantities.keySet().toArray(new MenuDefinition[quantities.size()]));
+		super.loadMenuDefinitions(false, quantities.keySet().toArray(new ActionDefinition[quantities.size()]));
 		initializeButton();
 	}
 
@@ -49,8 +49,8 @@ public class SelectableQuantityButton extends MenuEventHandler
 	{
 		button = new SplitMenuButton();
 		button.setText(prefix + " (1)");
-		MenuDefinition[] menus = new MenuDefinition[quantities.size()];
-		for (MenuDefinition info : quantities.keySet())
+		ActionDefinition[] menus = new ActionDefinition[quantities.size()];
+		for (ActionDefinition info : quantities.keySet())
 		{
 			QuantityDefinition quant = (QuantityDefinition) info;
 			menus[quant.number - 1] = info;
@@ -58,7 +58,7 @@ public class SelectableQuantityButton extends MenuEventHandler
 		MenuItem[] menuz = new MenuItem[quantities.size()];
 		for (MenuItem menu : super.menuDefinitionMap.keySet())
 		{
-			MenuDefinition quant = super.menuDefinitionMap.get(menu);
+			ActionDefinition quant = super.menuDefinitionMap.get(menu);
 			menuz[Arrays.asList(menus).indexOf(quant)] = menu;
 		}
 		button.getItems().addAll(menuz);
@@ -66,7 +66,7 @@ public class SelectableQuantityButton extends MenuEventHandler
 
 	private void initializeListItems(Integer total)
 	{
-		quantities = new HashMap<MenuDefinition, Integer>();
+		quantities = new HashMap<ActionDefinition, Integer>();
 		for (Integer i = 1; i <= total; i++)
 		{
 			QuantityDefinition quantity = new QuantityDefinition(i);
@@ -80,7 +80,7 @@ public class SelectableQuantityButton extends MenuEventHandler
 		Integer newQuantity = quantity;
 		try
 		{
-			MenuDefinition selection = (MenuDefinition) event_flag;
+			ActionDefinition selection = (ActionDefinition) event_flag;
 			newQuantity = quantities.get(selection);
 			quantity = newQuantity;
 			button.setText(prefix + " (" + String.valueOf(quantity) + ")");
@@ -92,7 +92,7 @@ public class SelectableQuantityButton extends MenuEventHandler
 		return newQuantity;
 	}
 
-	public static class QuantityDefinition implements MenuDefinition
+	public static class QuantityDefinition implements ActionDefinition
 	{
 
 		private String label;
@@ -112,14 +112,14 @@ public class SelectableQuantityButton extends MenuEventHandler
 		}
 
 		@Override
-		public MenuDefinition[] subMenuItems()
+		public ActionDefinition[] subMenuItems()
 		{
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public MenuDefinition[] rootItems()
+		public ActionDefinition[] rootItems()
 		{
 			// TODO Auto-generated method stub
 			return null;

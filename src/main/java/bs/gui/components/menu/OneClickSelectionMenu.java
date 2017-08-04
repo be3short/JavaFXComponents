@@ -2,8 +2,8 @@ package bs.gui.components.menu;
 
 import java.util.ArrayList;
 
-import com.be3short.jfx.event.menu.MenuDefinition;
-import com.be3short.jfx.event.menu.MenuEventHandler;
+import com.be3short.jfx.event.structure.ActionDefinition;
+import com.be3short.jfx.event.structure.ActionEventHandler;
 
 import bs.commons.objects.manipulation.ObjectCloner;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,11 +19,11 @@ public class OneClickSelectionMenu extends Menu
 	ArrayList<String> options;
 	String selectionPrefix;
 	String selectionPrompt;
-	MenuDefinition id;
-	MenuEventHandler handler;
+	ActionDefinition id;
+	ActionEventHandler handler;
 
-	public OneClickSelectionMenu(String prompt, String prefix, ArrayList<String> options, MenuEventHandler handler,
-	MenuDefinition id)
+	public OneClickSelectionMenu(String prompt, String prefix, ArrayList<String> options, ActionEventHandler handler,
+	ActionDefinition id)
 	{
 		this.handler = handler;
 		this.id = id;

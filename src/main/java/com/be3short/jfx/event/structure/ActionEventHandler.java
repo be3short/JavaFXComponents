@@ -1,4 +1,4 @@
-package com.be3short.jfx.event.menu;
+package com.be3short.jfx.event.structure;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,22 +12,22 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
-public abstract class MenuEventHandler implements MenuEventResponse
+public abstract class ActionEventHandler implements ActionEventResponse
 {
 
 	/*
 	 * List of all root menu definitions
 	 */
-	public ArrayList<MenuDefinition> rootMenuDefinitions;
+	public ArrayList<ActionDefinition> rootMenuDefinitions;
 	/*
 	 * Mapping of all menu items to the corresponding definition
 	 */
-	public HashMap<MenuItem, MenuDefinition> menuDefinitionMap;
+	public HashMap<MenuItem, ActionDefinition> menuDefinitionMap;
 
 	/*
 	 * Mapping of all menu items to the corresponding definition
 	 */
-	public HashMap<MenuDefinition, MenuItem> definitionMenuMap;
+	public HashMap<ActionDefinition, MenuItem> definitionMenuMap;
 	/*
 	 * Currently selected menu item
 	 */
@@ -44,7 +44,7 @@ public abstract class MenuEventHandler implements MenuEventResponse
 	 * @param root_menus - collection of root menu definitions (if there are
 	 * any)
 	 */
-	public MenuEventHandler(MenuDefinition... root_menus)
+	public ActionEventHandler(ActionDefinition... root_menus)
 	{
 		initializeComponents();
 		loadMenuDefinitions(true, root_menus);
@@ -58,7 +58,7 @@ public abstract class MenuEventHandler implements MenuEventResponse
 	 * 
 	 * @param root_menus - collection of root menu definitions to be added
 	 */
-	public void loadMenuDefinitions(boolean clear_existing, MenuDefinition... root_menus)
+	public void loadMenuDefinitions(boolean clear_existing, ActionDefinition... root_menus)
 	{
 		if (clear_existing)
 		{
@@ -88,7 +88,7 @@ public abstract class MenuEventHandler implements MenuEventResponse
 		return items;
 	}
 
-	public MenuItem getMenuItemFromDefinition(MenuDefinition def)
+	public MenuItem getMenuItemFromDefinition(ActionDefinition def)
 	{
 		MenuItem ret = null;
 		if (definitionMenuMap.containsKey(def))
@@ -108,9 +108,9 @@ public abstract class MenuEventHandler implements MenuEventResponse
 
 	private void initializeComponents()
 	{
-		rootMenuDefinitions = new ArrayList<MenuDefinition>();
-		menuDefinitionMap = new HashMap<MenuItem, MenuDefinition>();
-		definitionMenuMap = new HashMap<MenuDefinition, MenuItem>();
+		rootMenuDefinitions = new ArrayList<ActionDefinition>();
+		menuDefinitionMap = new HashMap<MenuItem, ActionDefinition>();
+		definitionMenuMap = new HashMap<ActionDefinition, MenuItem>();
 		menuItemSelected = new SimpleObjectProperty<Object>();
 		selectionActionResult = new SimpleObjectProperty<Object>();
 		clearData();
@@ -131,14 +131,14 @@ public abstract class MenuEventHandler implements MenuEventResponse
 		});
 	}
 
-	private void initializeMenus(MenuDefinition... menus)
+	private void initializeMenus(ActionDefinition... menus)
 	{
-		for (MenuDefinition menuInfo : menus)
+		for (ActionDefinition menuInfo : menus)
 		{
 			if (!menuDefinitionMap.containsValue(menuInfo))
 			{
 				MenuItem subMenu = new MenuItem(menuInfo.label());
-				if (MenuDefinition.hasSubItems(menuInfo))
+				if (ActionDefinition.hasSubItems(menuInfo))
 				{
 					subMenu = initializeMenuElements(menuInfo);
 				} else
@@ -153,17 +153,17 @@ public abstract class MenuEventHandler implements MenuEventResponse
 
 	}
 
-	private MenuItem initializeMenuElements(MenuDefinition info)
+	private MenuItem initializeMenuElements(ActionDefinition info)
 	{
 		MenuItem menu = null;
 		if (!menuDefinitionMap.containsValue(info))
 		{
 			menu = new MenuItem(info.label());
 
-			if (MenuDefinition.hasSubItems(info))
+			if (ActionDefinition.hasSubItems(info))
 			{
 				menu = new Menu(info.label());
-				for (MenuDefinition subMenuInfo : info.subMenuItems())
+				for (ActionDefinition subMenuInfo : info.subMenuItems())
 				{
 					MenuItem subMenu = initializeMenuElements(subMenuInfo);
 					if (subMenu != null)

@@ -1,4 +1,4 @@
-package com.be3short.jfx.event.menu;
+package com.be3short.jfx.event.structure;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.Arrays;
  * Generic definition of a menu to suite a variety of uses. Is used to generate
  * a Java FX menu, providing a simple way to identify and handle menu events.
  */
-public interface MenuDefinition
+public interface ActionDefinition
 {
 
 	/*
@@ -19,7 +19,7 @@ public interface MenuDefinition
 	 * Sub menu item definitions of the current menu definition, if there are
 	 * any
 	 */
-	public MenuDefinition[] subMenuItems();
+	public ActionDefinition[] subMenuItems();
 
 	/*
 	 * Menu item definitions that make up the first layer of the menu, ie file,
@@ -27,7 +27,7 @@ public interface MenuDefinition
 	 * 
 	 * @return array of the root menu item definitions
 	 */
-	public MenuDefinition[] rootItems();
+	public ActionDefinition[] rootItems();
 
 	/*
 	 * Determines if the menu has sub menu items
@@ -36,7 +36,7 @@ public interface MenuDefinition
 	 * 
 	 * @return true if menu definition has sub menu items, false otherwise
 	 */
-	public static boolean hasSubItems(MenuDefinition info)
+	public static boolean hasSubItems(ActionDefinition info)
 	{
 		Boolean hasSubItems = false;
 		if (info.subMenuItems() != null)
@@ -58,7 +58,7 @@ public interface MenuDefinition
 	 * 
 	 * @return true if menu definition has sub menu item, false otherwise
 	 */
-	public static boolean containsSubItem(MenuDefinition root, MenuDefinition item)
+	public static boolean containsSubItem(ActionDefinition root, ActionDefinition item)
 	{
 		Boolean hasSubItems = false;
 		if (root.subMenuItems() != null)
