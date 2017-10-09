@@ -2,7 +2,7 @@ package com.be3short.jfx.buttons;
 
 import com.be3short.jfx.connectors.ApplicationPropertiesInterface;
 import com.be3short.jfx.connectors.application.DisplayActions;
-import com.be3short.jfx.event.menu.ActionEventHandler;
+import com.be3short.jfx.event.menu.FxEventHandler;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,10 +28,10 @@ public class TabMenuButton
 
 	public SplitMenuButton button;
 	private Label buttonLabel;
-	private ActionEventHandler eventHandler;
+	private FxEventHandler eventHandler;
 	DisplayActions appElements;
 
-	public TabMenuButton(ActionEventHandler handler, Label label, Node display_content, DisplayActions app_elements)
+	public TabMenuButton(FxEventHandler handler, Label label, Node display_content, DisplayActions app_elements)
 	{
 		eventHandler = handler;
 		buttonLabel = label;
