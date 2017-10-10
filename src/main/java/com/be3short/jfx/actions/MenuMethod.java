@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import bs.commons.objects.execution.MethodId;
+import com.be3short.obj.execution.MethodId;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(

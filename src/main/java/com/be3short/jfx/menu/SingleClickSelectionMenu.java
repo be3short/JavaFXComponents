@@ -1,8 +1,8 @@
 package com.be3short.jfx.menu;
 
+import com.be3short.data.cloning.ObjectCloner;
 import java.util.ArrayList;
 
-import bs.commons.objects.manipulation.ObjectCloner;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;

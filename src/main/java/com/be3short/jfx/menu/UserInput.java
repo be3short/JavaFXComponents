@@ -1,6 +1,6 @@
 package com.be3short.jfx.menu;
 
-import bs.commons.objects.access.MethodAccessor;
+import com.be3short.obj.access.MethodAccessor;
 import javafx.scene.layout.BorderPane;
 
 public class UserInput

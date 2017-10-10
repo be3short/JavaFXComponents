@@ -1,6 +1,6 @@
 package com.be3short.jfx.gui.auto;
 
-import bs.commons.objects.access.MethodAccessor;
+import com.be3short.obj.access.MethodAccessor;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

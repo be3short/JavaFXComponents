@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import bs.commons.objects.access.FieldAccessor;
-import bs.commons.objects.execution.ExternalFieldUpdate;
-import bs.commons.objects.execution.MethodId;
-import bs.commons.objects.labeling.Label;
-import bs.commons.objects.labeling.LabelReader;
-import bs.commons.objects.manipulation.ObjectCloner;
+import com.be3short.obj.access.FieldAccessor;
+import com.be3short.obj.execution.ExternalFieldUpdate;
+import com.be3short.obj.execution.MethodId;
+import com.be3short.obj.labeling.Label;
+import com.be3short.obj.labeling.LabelReader;
+import com.be3short.data.cloning.ObjectCloner;
 import com.be3short.jfx.actions.ActionButton;
 import com.be3short.jfx.menu.UserInput;
 import javafx.scene.control.ScrollPane;

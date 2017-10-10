@@ -3,9 +3,9 @@ package com.be3short.jfx.menu;
 import java.util.ArrayList;
 
 import com.be3short.jfx.event.menu.MenuDefinition;
+import com.be3short.data.cloning.ObjectCloner;
 import com.be3short.jfx.event.menu.FxEventHandler;
 
-import bs.commons.objects.manipulation.ObjectCloner;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;

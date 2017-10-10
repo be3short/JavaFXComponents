@@ -3,9 +3,9 @@ package com.be3short.jfx.input.fieldeditors;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bs.commons.objects.access.ChoiceAccessor;
-import bs.commons.objects.execution.ExternalMethodExecutor;
-import bs.commons.objects.execution.MethodId;
+import com.be3short.obj.access.ChoiceAccessor;
+import com.be3short.obj.execution.ExternalMethodExecutor;
+import com.be3short.obj.execution.MethodId;
 import com.be3short.jfx.menu.UserInput;
 import com.be3short.jfx.menu.UserInput.Actions;
 import javafx.beans.value.ChangeListener;

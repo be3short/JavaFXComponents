@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import bs.commons.objects.access.MethodAccessor;
-import bs.commons.objects.execution.LocationType;
-import bs.commons.objects.execution.MethodId;
-import bs.commons.objects.labeling.LabelReader;
+import com.be3short.obj.access.MethodAccessor;
+import com.be3short.obj.execution.LocationType;
+import com.be3short.obj.execution.MethodId;
+import com.be3short.obj.labeling.LabelReader;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -45,7 +45,7 @@ public class ActionMenuBar extends MenuBar
 		}
 		for (String menuName : menus.keySet())
 		{
-			//getMenus().add(menus.get(menuName));
+			// getMenus().add(menus.get(menuName));
 		}
 
 	}

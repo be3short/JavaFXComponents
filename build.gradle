@@ -9,7 +9,6 @@ repositories {
 dependencies {
 
     testCompile 'junit:junit:4.12' // j unit for testing
-    
-  	compile 'com.github.be3short:ObjectTools:v0.2.2' // object tools for object related operations
+  	compile 'com.github.be3short:ObjectTools:v0.3.0'  // object tools for object related operations
 }
 

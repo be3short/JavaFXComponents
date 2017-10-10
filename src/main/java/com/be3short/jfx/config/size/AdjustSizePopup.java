@@ -1,7 +1,7 @@
 package com.be3short.jfx.config.size;
 
-import bs.commons.objects.access.MethodAccessor;
-import bs.commons.objects.manipulation.XMLParser;
+import com.be3short.obj.access.MethodAccessor;
+import com.be3short.io.xml.XMLParser;
 import com.be3short.jfx.input.fieldeditors.ProtectedTextArea;
 import javafx.application.Application;
 import javafx.event.ActionEvent;

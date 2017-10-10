@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import bs.commons.objects.execution.ExternalFieldUpdate;
+import com.be3short.obj.execution.ExternalFieldUpdate;
 import com.be3short.jfx.menu.UserInput;
 
 public class InputSorter

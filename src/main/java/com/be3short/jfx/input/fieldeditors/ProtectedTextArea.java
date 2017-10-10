@@ -1,7 +1,7 @@
 package com.be3short.jfx.input.fieldeditors;
 
-import bs.commons.objects.access.FieldFinder;
-import bs.commons.objects.execution.MethodId;
+import com.be3short.obj.access.FieldFinder;
+import com.be3short.obj.execution.MethodId;
 import com.be3short.jfx.menu.UserInput;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
