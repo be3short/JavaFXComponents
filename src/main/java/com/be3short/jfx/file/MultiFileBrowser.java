@@ -130,4 +130,9 @@ public class MultiFileBrowser
 		ADD,
 		LOAD;
 	}
+
+	public HashMap<MultiFileBrowserButton, Button> getButtonMap()
+	{
+		return buttonMap;
+	}
 }
