@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -33,16 +32,14 @@ public abstract class FxEventHandler implements ActionEventResponse
 	 */
 	public ObjectProperty<Object> menuItemSelected;
 	/*
-	 * Object returned from response to most recently selected menu item, null
-	 * if nothing returned
+	 * Object returned from response to most recently selected menu item, null if nothing returned
 	 */
 	public ObjectProperty<Object> selectionActionResult;
 
 	/*
 	 * Constructor with root menu definitions specified
 	 * 
-	 * @param root_menus - collection of root menu definitions (if there are
-	 * any)
+	 * @param root_menus - collection of root menu definitions (if there are any)
 	 */
 	public FxEventHandler(MenuDefinition... root_menus)
 	{
@@ -53,8 +50,7 @@ public abstract class FxEventHandler implements ActionEventResponse
 	/*
 	 * Loads new menu definitions
 	 * 
-	 * @param clear_existing - clear existing menu items before adding new
-	 * definitions
+	 * @param clear_existing - clear existing menu items before adding new definitions
 	 * 
 	 * @param root_menus - collection of root menu definitions to be added
 	 */
@@ -183,4 +179,20 @@ public abstract class FxEventHandler implements ActionEventResponse
 		return menu;
 	}
 
+	public ArrayList<Menu> getRootMenus()
+	{
+		ArrayList<Menu> rootMenus = new ArrayList<Menu>();
+		for (MenuItem rootItem : getRootMenuItems())
+		{
+			try
+			{
+				Menu rootMenu = (Menu) rootItem;
+				rootMenus.add(rootMenu);
+			} catch (Exception e)
+			{
+
+			}
+		}
+		return rootMenus;
+	}
 }

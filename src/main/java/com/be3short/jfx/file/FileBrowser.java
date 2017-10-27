@@ -122,6 +122,9 @@ public class FileBrowser extends FxEventHandler
 					});
 					debugStatusThread.start();
 
+				} else
+				{
+					previewText.setText("");
 				}
 			}
 		});
@@ -142,6 +145,17 @@ public class FileBrowser extends FxEventHandler
 
 	private void initializeButtons(BooleanProperty browse)
 	{
+		if (!browse.getValue())
+
+		{
+			try
+			{
+				adjustmentDisplay.getItems().remove(directoryTree);
+			} catch (Exception e)
+			{
+
+			}
+		}
 
 		browse.addListener(new ChangeListener<Boolean>()
 		{
@@ -152,9 +166,57 @@ public class FileBrowser extends FxEventHandler
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
 			{
 
-				if (adjustmentDisplay.getItems().contains(directoryTree))
+				if (!newValue)
 				{
-					adjustmentDisplay.getItems().remove(directoryTree);
+					try
+					{
+						adjustmentDisplay.getItems().remove(directoryTree);
+					} catch (Exception e)
+					{
+
+					}
+				} else
+				{
+					adjustmentDisplay.getItems().add(0, directoryTree);
+				}
+			}
+
+			//
+		});
+	}
+
+	private void initializeClickActions(BooleanProperty browse)
+	{
+		if (!browse.getValue())
+
+		{
+			try
+			{
+				adjustmentDisplay.getItems().remove(directoryTree);
+			} catch (Exception e)
+			{
+
+			}
+		}
+
+		browse.addListener(new ChangeListener<Boolean>()
+		{
+
+			//
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+			{
+
+				if (!newValue)
+				{
+					try
+					{
+						adjustmentDisplay.getItems().remove(directoryTree);
+					} catch (Exception e)
+					{
+
+					}
 				} else
 				{
 					adjustmentDisplay.getItems().add(0, directoryTree);
