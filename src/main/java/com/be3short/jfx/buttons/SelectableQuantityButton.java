@@ -123,13 +123,6 @@ public class SelectableQuantityButton extends FxEventHandler
 			return null;
 		}
 
-		@Override
-		public boolean isRootMenu()
-		{
-			// TODO Auto-generated method stub
-			return false;
-		}
-
 	}
 
 }
