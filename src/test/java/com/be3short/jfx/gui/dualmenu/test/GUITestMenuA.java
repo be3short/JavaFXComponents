@@ -2,7 +2,7 @@ package com.be3short.jfx.gui.dualmenu.test;
 
 import com.be3short.ui.menu.MenuDefinition;
 
-public enum GUITestMenu implements MenuDefinition
+public enum GUITestMenuA implements MenuDefinition
 {
 
 	SUBSUB_A1(
@@ -41,7 +41,7 @@ public enum GUITestMenu implements MenuDefinition
 	private MenuDefinition[] subMenuItems;
 	private String label;
 
-	private GUITestMenu(String label, MenuDefinition... sub_menus)
+	private GUITestMenuA(String label, MenuDefinition... sub_menus)
 	{
 		this.label = label;
 		if (sub_menus.length > 0)

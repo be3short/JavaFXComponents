@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 public class GUI
 {
 
+	private Stage stage;
+	private String guiName;
 	private BorderPane window;
 	private BorderPane menuPane;
 	private MenuBar mainMenuBar;
@@ -31,7 +33,13 @@ public class GUI
 
 	public GUI(MenuHandler main_menu, Display... displays)
 	{
-		setup(main_menu, displays);
+		setup("", main_menu, displays);
+
+	}
+
+	public GUI(String gui_name, MenuHandler main_menu, Display... displays)
+	{
+		setup(gui_name, main_menu, displays);
 
 	}
 
@@ -50,17 +58,20 @@ public class GUI
 		}
 	}
 
-	private void setup(MenuHandler main_menu, Display... displays)
+	private void setup(String gui_name, MenuHandler main_menu, Display... displays)
 	{
+		guiName = gui_name;
 		prepare(main_menu, displays);
 		createGUI();
 		setupAllMenus();
+		labelStage();
 	}
 
 	private void createGUI()
 	{
+		window = new BorderPane();
 		menuPane = new BorderPane();
-		menuPane.setCenter(openingDisplay.getDisplay());
+		window.setCenter(openingDisplay.getDisplay());
 	}
 
 	public BorderPane getWindow()
@@ -85,8 +96,10 @@ public class GUI
 
 	public void launch(Stage stage)
 	{
+		this.stage = stage;
 		stage.setScene(new Scene(window));
-
+		labelStage();
+		stage.show();
 	}
 
 	private void handleEvent(MenuDefinition event_id)
@@ -107,6 +120,7 @@ public class GUI
 		{
 			openingDisplay = displays.get(event_id);
 			window.setCenter(openingDisplay.getDisplay());
+			labelStage();
 			return true;
 		}
 		return false;
@@ -133,7 +147,11 @@ public class GUI
 
 	private void placeMenus()
 	{
-		window.setTop(mainMenuBar);
+
+		menuPane.setCenter(mainMenuBar);
+		menuPane.setRight(displayMenus.get(openingDisplay));
+		window.setTop(menuPane);
+
 	}
 
 	private MenuBar setupMenuBar(MenuHandler menu)
@@ -142,7 +160,7 @@ public class GUI
 		for (MenuDefinition menuDefinition : menu.getMenu().subMenuItems())
 		{
 			Menu subMenu = null;
-			if (MenuDefinition.hasSubItems(menuDefinition))
+			if (menuDefinition.subMenuItems() != null)
 			{
 				subMenu = setupMenu(menuDefinition);
 
@@ -172,7 +190,7 @@ public class GUI
 		for (MenuDefinition menuItem : menu.subMenuItems())
 		{
 			MenuItem newMenu;
-			if (menuItem.subMenuItems().length > 0)
+			if (menuItem.subMenuItems() != null)
 			{
 				newMenu = setupMenu(menuItem);
 			} else
@@ -199,6 +217,19 @@ public class GUI
 		return newMenuItem;
 	}
 
+	private void labelStage()
+	{
+		if (stage != null)
+		{
+			String stageName = "";
+			if (guiName.length() > 0)
+			{
+				stageName = guiName + " : ";
+			}
+			stageName += openingDisplay.getLabel();
+			stage.setTitle(stageName);
+		}
+	}
 	// public Pos getMainMenuPosition()
 	// {
 	// return mainMenuPosition;
