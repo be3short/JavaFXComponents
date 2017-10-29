@@ -5,12 +5,15 @@ repositories {
     jcenter()
     maven { url "https://jitpack.io" } // access to github repositories
 }
-
+configurations.all {
+    // Check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 dependencies {
 
     testCompile 'junit:junit:4.12' // j unit for testing
-  	compile 'com.github.be3short:ObjectTools:v0.3.0'  // object tools for object related operations
+  	compile 'com.github.be3short:ObjectTools:-SNAPSHOT'  // object tools for object related operations
 	compile group: 'at.bestsolution.eclipse', name: 'org.eclipse.fx.ui.controls', version: '2.2.0'
-	
+		compile 'com.github.be3short:UITools:-SNAPSHOT' // ui tols for helping with ui implementations
 }
 

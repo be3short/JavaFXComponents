@@ -1,11 +1,10 @@
 package com.be3short.jfx.event.menu;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /*
- * Generic definition of a menu to suite a variety of uses. Is used to generate
- * a Java FX menu, providing a simple way to identify and handle menu events.
+ * Generic definition of a menu to suite a variety of uses. Is used to generate a Java FX menu, providing a simple way
+ * to identify and handle menu events.
  */
 public interface MenuDefinition
 {
@@ -16,17 +15,17 @@ public interface MenuDefinition
 	public String label();
 
 	/*
-	 * Sub menu item definitions of the current menu definition, if there are
-	 * any
+	 * Sub menu item definitions of the current menu definition, if there are any
 	 */
 	public MenuDefinition[] subMenuItems();
 
 	/*
-	 * Menu item definitions that make up the first layer of the menu, ie file,
-	 * edit, view, etc are the root items a common menu bar.
+	 * Menu item definitions that make up the first layer of the menu, ie file, edit, view, etc are the root items a
+	 * common menu bar.
 	 * 
 	 * @return array of the root menu item definitions
 	 */
+	@Deprecated
 	public MenuDefinition[] rootItems();
 
 	/*
@@ -70,4 +69,5 @@ public interface MenuDefinition
 		}
 		return hasSubItems;
 	}
+
 }

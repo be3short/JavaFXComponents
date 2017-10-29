@@ -1,11 +1,9 @@
 package com.be3short.jfx.buttons;
 
+import com.be3short.jfx.event.menu.FxEventHandler;
+import com.be3short.jfx.event.menu.MenuDefinition;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import com.be3short.jfx.event.menu.MenuDefinition;
-import com.be3short.jfx.event.menu.FxEventHandler;
-
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 
@@ -123,6 +121,13 @@ public class SelectableQuantityButton extends FxEventHandler
 		{
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		@Override
+		public boolean isRootMenu()
+		{
+			// TODO Auto-generated method stub
+			return false;
 		}
 
 	}
