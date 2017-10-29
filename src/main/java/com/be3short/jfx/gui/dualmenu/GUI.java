@@ -5,6 +5,7 @@ import com.be3short.ui.menu.MenuHandler;
 import com.be3short.ui.menu.MenuInstance;
 import java.util.Collection;
 import java.util.HashMap;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -14,7 +15,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class GUI
+public class GUI<T extends MenuHandler> extends Application
 {
 
 	private Stage stage;
@@ -22,7 +23,7 @@ public class GUI
 	private BorderPane window;
 	private BorderPane menuPane;
 	private MenuBar mainMenuBar;
-	private MenuHandler mainMenu;
+	private T mainMenu;
 	private HashMap<Display, MenuBar> displayMenus;
 	private HashMap<MenuDefinition, Display> displays;
 	private Display openingDisplay;
@@ -31,19 +32,24 @@ public class GUI
 	// private Pos mainMenuPosition; // position of main menu
 	// private Pos displayMenuPosition; // position of display menu
 
-	public GUI(MenuHandler main_menu, Display... displays)
+	public GUI(T main_menu, Display... displays)
 	{
 		setup("", main_menu, displays);
 
 	}
 
-	public GUI(String gui_name, MenuHandler main_menu, Display... displays)
+	public GUI()
+	{
+
+	}
+
+	public GUI(String gui_name, T main_menu, Display... displays)
 	{
 		setup(gui_name, main_menu, displays);
 
 	}
 
-	private void prepare(MenuHandler main_menu, Display... displays)
+	private void prepare(T main_menu, Display... displays)
 	{
 		this.displayMenus = new HashMap<Display, MenuBar>();
 		this.displays = new HashMap<MenuDefinition, Display>();
@@ -58,7 +64,7 @@ public class GUI
 		}
 	}
 
-	private void setup(String gui_name, MenuHandler main_menu, Display... displays)
+	public void setup(String gui_name, T main_menu, Display... displays)
 	{
 		guiName = gui_name;
 		prepare(main_menu, displays);
@@ -79,7 +85,7 @@ public class GUI
 		return window;
 	}
 
-	public MenuHandler getMainMenu()
+	public T getMainMenu()
 	{
 		return mainMenu;
 	}
@@ -94,7 +100,12 @@ public class GUI
 		return openingDisplay;
 	}
 
-	public void launch(Stage stage)
+	public void start()
+	{
+		GUILauncher.launchWindow(this);
+	}
+
+	public void start(Stage stage)
 	{
 		this.stage = stage;
 		stage.setScene(new Scene(window));
