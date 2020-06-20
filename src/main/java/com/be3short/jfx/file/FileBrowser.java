@@ -1,3 +1,4 @@
+
 package com.be3short.jfx.file;
 
 import com.be3short.io.general.FileSystemInteractor;
@@ -15,74 +16,84 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
 import org.eclipse.fx.ui.controls.filesystem.DirectoryTreeView;
 import org.eclipse.fx.ui.controls.filesystem.DirectoryView;
 import org.eclipse.fx.ui.controls.filesystem.IconSize;
 import org.eclipse.fx.ui.controls.filesystem.ResourceItem;
 import org.eclipse.fx.ui.controls.filesystem.RootDirItem;
 
-public class FileBrowser extends FxEventHandler
-{
+public class FileBrowser extends FxEventHandler {
 
 	private static ArrayList<String> allowedExtensions = new ArrayList<String>();
+
 	private BorderPane window;
 
-	public BorderPane getWindow()
-	{
+	public BorderPane getWindow() {
+
 		return window;
 	}
 
 	private TextArea previewText;
+
 	private SplitPane adjustmentDisplay;
+
 	private DirectoryTreeView directoryTree;
+
 	private DirectoryView directoryView;
+
 	private StringProperty selectedFile;
+
 	private static RootDirItem rootDirItem;
 
-	public FileBrowser(TextArea preview_text, StringProperty selected_file, BooleanProperty browse, String root_path)
-	{
+	public FileBrowser(TextArea preview_text, StringProperty selected_file, BooleanProperty browse, String root_path) {
+
 		previewText = preview_text;
 		selectedFile = selected_file;
-		rootDirItem = ResourceItem.createObservedPath(Paths.get(root_path));
+		rootDirItem = ResourceItem.createObservedPath(Paths.get("C:\\Users\\17074\\Documents\\GitHub\\jhdeRefactor"));
+		// rootDirItem = ResourceItem.createObservedPath(Paths.get(root_path +
+		// "/Desktop"));
 		initialize(browse);
 		directoryView.setDir(directoryTree.getRootDirectories().get(0));
 	}
 
-	public FileBrowser(TextArea preview_text, StringProperty selected_file, BooleanProperty browse)
-	{
+	public FileBrowser(TextArea preview_text, StringProperty selected_file, BooleanProperty browse) {
+
 		previewText = preview_text;
 		selectedFile = selected_file;
-		rootDirItem = ResourceItem.createObservedPath(Paths.get(System.getProperty("user.home")));
+		rootDirItem = ResourceItem.createObservedPath(Paths.get("C:\\Users\\17074\\Documents\\GitHub\\jhdeRefactor"));
+		// rootDirItem =
+		// ResourceItem.createObservedPath(Paths.get(System.getProperty("user.home") +
+		// "/Desktop"));
 		initialize(browse);
 	}
 
-	public static void addAllowedExtension(String... extensions)
-	{
-		for (String extension : extensions)
-		{
-			if (!allowedExtensions.contains(extension))
-			{
+	public static void addAllowedExtension(String... extensions) {
+
+		for (String extension : extensions) {
+			if (!allowedExtensions.contains(extension)) {
 				allowedExtensions.add(extension);
 			}
 		}
 	}
 
-	private void initialize(BooleanProperty browse)
-	{
+	private void initialize(BooleanProperty browse) {
+
 		initializeContainers();
 		initializeDirectoryViews();
 		initializeButtons(browse);
+		initializeClickActions(browse);
 	}
 
-	private void initializeContainers()
-	{
+	private void initializeContainers() {
+
 		window = new BorderPane();
 		adjustmentDisplay = new SplitPane();
 		window.setCenter(adjustmentDisplay);
 	}
 
-	private void initializeDirectoryViews()
-	{
+	private void initializeDirectoryViews() {
 
 		directoryTree = new DirectoryTreeView();
 		directoryTree.setIconSize(IconSize.SMALL);
@@ -91,39 +102,36 @@ public class FileBrowser extends FxEventHandler
 		directoryView = new DirectoryView();
 		directoryView.setIconSize(IconSize.SMALL);
 
-		directoryTree.getSelectedItems().addListener((Observable o) ->
-		{
-			if (!directoryTree.getSelectedItems().isEmpty())
-			{
-				directoryView.setDir(directoryTree.getSelectedItems().get(0));
-			} else
-			{
+		directoryTree.getSelectedItems().addListener((Observable o) -> {
+			if (!directoryTree.getSelectedItems().isEmpty()) {
+				try {
+					directoryView.setDir(directoryTree.getSelectedItems().get(0));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
 				directoryView.setDir(null);
 			}
 		});
-		directoryView.getSelectedItems().addListener((Observable o) ->
-		{
-			if (!directoryView.getSelectedItems().isEmpty())
-			{
+		directoryView.getSelectedItems().addListener((Observable o) -> {
+			if (!directoryView.getSelectedItems().isEmpty()) {
 				// System.out.println(directoryView.getSelectedItems().get(0));
 				selectedFile.setValue(directoryView.getSelectedItems().get(0).getUri().split("file:")[1]);
 				// System.out.println(selectedFile.getValue());
-				if (hasExtension(selectedFile.getValue()))
-				{
-					Thread debugStatusThread = new Thread(new Runnable()
-					{
+				if (hasExtension(selectedFile.getValue())) {
+					Thread debugStatusThread = new Thread(new Runnable() {
 
-						public void run()
-						{
-							previewText
-							.setText(FileSystemInteractor.getFileContentsAsString(new File(selectedFile.getValue())));
+						@Override
+						public void run() {
+
+							previewText.setText(
+									FileSystemInteractor.getFileContentsAsString(new File(selectedFile.getValue())));
 						}
 
 					});
 					debugStatusThread.start();
 
-				} else
-				{
+				} else {
 					previewText.setText("");
 				}
 			}
@@ -131,52 +139,42 @@ public class FileBrowser extends FxEventHandler
 		adjustmentDisplay.getItems().addAll(directoryTree, directoryView);
 	}
 
-	public static boolean hasExtension(String file_name)
-	{
-		for (String extension : allowedExtensions)
-		{
-			if (file_name.contains(extension))
-			{
+	public static boolean hasExtension(String file_name) {
+
+		for (String extension : allowedExtensions) {
+			if (file_name.contains(extension)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private void initializeButtons(BooleanProperty browse)
-	{
+	private void initializeButtons(BooleanProperty browse) {
+
 		if (!browse.getValue())
 
 		{
-			try
-			{
+			try {
 				adjustmentDisplay.getItems().remove(directoryTree);
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 
 			}
 		}
 
-		browse.addListener(new ChangeListener<Boolean>()
-		{
+		browse.addListener(new ChangeListener<Boolean>() {
 
 			//
 
 			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-			{
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 
-				if (!newValue)
-				{
-					try
-					{
+				if (!newValue) {
+					try {
 						adjustmentDisplay.getItems().remove(directoryTree);
-					} catch (Exception e)
-					{
+					} catch (Exception e) {
 
 					}
-				} else
-				{
+				} else {
 					adjustmentDisplay.getItems().add(0, directoryTree);
 				}
 			}
@@ -185,57 +183,43 @@ public class FileBrowser extends FxEventHandler
 		});
 	}
 
-	private void initializeClickActions(BooleanProperty browse)
-	{
+	private void initializeClickActions(BooleanProperty browse) {
+
 		if (!browse.getValue())
 
 		{
-			try
-			{
+			try {
 				adjustmentDisplay.getItems().remove(directoryTree);
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 
 			}
 		}
 
-		browse.addListener(new ChangeListener<Boolean>()
-		{
+		browse.addListener(new ChangeListener<Boolean>() {
 
 			//
 
 			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-			{
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 
-				if (!newValue)
-				{
-					try
-					{
+				if (!newValue) {
+					try {
 						adjustmentDisplay.getItems().remove(directoryTree);
-					} catch (Exception e)
-					{
+					} catch (Exception e) {
 
 					}
-				} else
-				{
+				} else {
 					adjustmentDisplay.getItems().add(0, directoryTree);
 				}
 			}
 
 			//
 		});
-	}
-
-	public static void main(String[] args)
-	{
-		Application.launch(args);
-		rootDirItem.dispose();
 	}
 
 	@Override
-	public Object respondToEvent(Object event_flag)
-	{
+	public Object respondToEvent(Object event_flag) {
+
 		// TODO Auto-generated method stub
 		return null;
 	}

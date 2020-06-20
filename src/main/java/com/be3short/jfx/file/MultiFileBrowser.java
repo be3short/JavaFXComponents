@@ -1,3 +1,4 @@
+
 package com.be3short.jfx.file;
 
 import java.io.File;
@@ -21,50 +22,57 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-public class MultiFileBrowser
-{
+public class MultiFileBrowser {
 
 	private ToolBar buttons;
+
 	private ToolBar extraButtons;
+
 	private BorderPane browseWindow;
+
 	private BorderPane previewWindow;
+
 	private TextArea previewText;
+
 	private TabPane directoryTabs;
+
 	private StringProperty selectedFile;
 
-	public StringProperty getSelectedFile()
-	{
+	public StringProperty getSelectedFile() {
+
 		return selectedFile;
 	}
 
 	private BooleanProperty browseTreeVisible;
+
 	private HashMap<MultiFileBrowserButton, Button> buttonMap;
+
 	private SplitPane viewSplitter;
 
-	public MultiFileBrowser()
-	{
+	public MultiFileBrowser() {
+
 		initialize();
 	}
 
-	public void addButton(Button... buttons)
-	{
+	public void addButton(Button... buttons) {
+
 		extraButtons.getItems().addAll(buttons);
 	}
 
-	public void addButton(ToggleButton... buttons)
-	{
+	public void addButton(ToggleButton... buttons) {
+
 		extraButtons.getItems().addAll(buttons);
 	}
 
-	private void initialize()
-	{
+	private void initialize() {
+
 		initializeContainers();
 		initializeButtons();
 		loadContainers();
 	}
 
-	private void initializeContainers()
-	{
+	private void initializeContainers() {
+
 		previewWindow = new BorderPane();
 		browseWindow = new BorderPane();
 		directoryTabs = new TabPane();
@@ -79,8 +87,8 @@ public class MultiFileBrowser
 		buttonMap = new HashMap<MultiFileBrowserButton, Button>();
 	}
 
-	private void loadContainers()
-	{
+	private void loadContainers() {
+
 		previewWindow.setCenter(previewText);
 		previewText.setMinHeight(0.0);
 		viewSplitter.getItems().addAll(directoryTabs, previewWindow);// , previewWindow);
@@ -90,47 +98,43 @@ public class MultiFileBrowser
 		buttonPane.setRight(extraButtons);
 		browseWindow.setBottom(buttonPane);
 		Tab mainBrowser = new Tab("Files");
+
 		mainBrowser.setContent((new FileBrowser(previewText, selectedFile, browseTreeVisible)).getWindow());
 		mainBrowser.setClosable(false);
 		directoryTabs.getTabs().add(mainBrowser);
 	}
 
-	private void initializeButtons()
-	{
+	private void initializeButtons() {
 
 		ToggleButton browse = new ToggleButton("Browse");
 		browse.setSelected(true);
-		browse.setOnAction(new EventHandler<ActionEvent>()
-		{
+		browse.setOnAction(new EventHandler<ActionEvent>() {
 
-			public void handle(ActionEvent event)
-			{
-				try
-				{
+			@Override
+			public void handle(ActionEvent event) {
+
+				try {
 					browseTreeVisible.setValue(browse.isSelected());
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
 
 				}
 			}
 		});
 		Button open = new Button("Open");
-		open.setOnAction(new EventHandler<ActionEvent>()
-		{
+		open.setOnAction(new EventHandler<ActionEvent>() {
 
-			public void handle(ActionEvent event)
-			{
-				try
-				{
+			@Override
+			public void handle(ActionEvent event) {
+
+				try {
 					File root = new DirectoryChooser().showDialog(new Stage());
 					Tab mainBrowser = new Tab(root.getName());// "#" + directoryTabs.getTabs().size());
-					mainBrowser
-					.setContent((new FileBrowser(previewText, selectedFile, browseTreeVisible, root.getAbsolutePath()))
-					.getWindow());
+					mainBrowser.setContent(
+							(new FileBrowser(previewText, selectedFile, browseTreeVisible, root.getAbsolutePath()))
+									.getWindow());
 					directoryTabs.getTabs().add(mainBrowser);
 					directoryTabs.getSelectionModel().select(mainBrowser);
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
 
 				}
 			}
@@ -138,26 +142,21 @@ public class MultiFileBrowser
 		buttonMap.put(MultiFileBrowserButton.OPEN, open);
 		ToggleButton preview = new ToggleButton("Preview");
 		preview.setSelected(true);
-		preview.setOnAction(new EventHandler<ActionEvent>()
-		{
+		preview.setOnAction(new EventHandler<ActionEvent>() {
 
-			public void handle(ActionEvent event)
-			{
-				try
-				{
+			@Override
+			public void handle(ActionEvent event) {
 
-					if (!preview.isSelected())
-					{
-						if (viewSplitter.getItems().contains(previewWindow))
-						{
+				try {
+
+					if (!preview.isSelected()) {
+						if (viewSplitter.getItems().contains(previewWindow)) {
 							viewSplitter.getItems().remove(previewWindow);
 						}
-					} else if (!viewSplitter.getItems().contains(previewWindow))
-					{
+					} else if (!viewSplitter.getItems().contains(previewWindow)) {
 						viewSplitter.getItems().add(previewWindow);
 					}
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
 
 				}
 			}
@@ -168,27 +167,25 @@ public class MultiFileBrowser
 		buttons.getItems().addAll(buttonMap.values());// open, browse, preview, add);
 	}
 
-	public BorderPane getBrowseWindow()
-	{
+	public BorderPane getBrowseWindow() {
+
 		return browseWindow;
 	}
 
-	public BorderPane getPreviewWindow()
-	{
+	public BorderPane getPreviewWindow() {
+
 		return previewWindow;
 	}
 
-	public static enum MultiFileBrowserButton
-	{
+	public static enum MultiFileBrowserButton {
 		BROWSE,
 		OPEN,
 		PREVIEW,
 		ADD,
-		LOAD;
-	}
+		LOAD; }
 
-	public HashMap<MultiFileBrowserButton, Button> getButtonMap()
-	{
+	public HashMap<MultiFileBrowserButton, Button> getButtonMap() {
+
 		return buttonMap;
 	}
 }
